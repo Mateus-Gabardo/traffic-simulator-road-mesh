@@ -1,4 +1,4 @@
-package br.udesc.traffic.simulator.road.mesh.view;
+package br.udesc.traffic.simulator.road.mesh.component;
 
 import java.awt.Color;
 import java.awt.Graphics;

@@ -3,10 +3,10 @@ package br.udesc.traffic.simulator.road.mesh.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.udesc.traffic.simulator.road.mesh.view.View;
+import br.udesc.traffic.simulator.road.mesh.observer.ObserverView;
 
-public class TrafficSimulatorController implements AbstractTrafficSimulatorTableController, Controller{
-	List<View> observers;
+public class TrafficSimulatorController implements AbstractTrafficSimulatorTableController, AbstractController{
+	List<ObserverView> observers;
 		
 	public TrafficSimulatorController() {
 		super();
@@ -32,19 +32,19 @@ public class TrafficSimulatorController implements AbstractTrafficSimulatorTable
 	}
 
 	@Override
-	public void addObserver(View view) {
+	public void addObserver(ObserverView view) {
 		observers.add(view);		
 	}
 
 	@Override
-	public void removeObserver(View view) {
+	public void removeObserver(ObserverView view) {
 		observers.remove(view);
 		
 	}
 
 	@Override
 	public void notifyObserver() {
-		for(View view : observers) {
+		for(ObserverView view : observers) {
 			// chama algum metodo que deve ser implementado na view
 			// atualizar a tela por exemplo
 		}
