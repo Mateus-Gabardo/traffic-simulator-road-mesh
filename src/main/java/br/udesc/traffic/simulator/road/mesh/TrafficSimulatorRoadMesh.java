@@ -1,7 +1,7 @@
 
 package br.udesc.traffic.simulator.road.mesh;
 
-import br.udesc.traffic.simulator.road.mesh.view.TrafficSimulatorView;
+import br.udesc.traffic.simulator.road.mesh.view.InitialView;
 
 /**
  *
@@ -10,7 +10,7 @@ import br.udesc.traffic.simulator.road.mesh.view.TrafficSimulatorView;
 public class TrafficSimulatorRoadMesh {
 
     public static void main(String[] args) {
-        TrafficSimulatorView view = new TrafficSimulatorView();
+        InitialView view = new InitialView();
         view.setVisible(true);
     }
 }
