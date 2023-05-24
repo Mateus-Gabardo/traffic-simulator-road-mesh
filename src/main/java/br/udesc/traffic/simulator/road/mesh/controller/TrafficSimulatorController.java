@@ -5,6 +5,14 @@ import java.util.List;
 
 import br.udesc.traffic.simulator.road.mesh.model.GlobalContants;
 import br.udesc.traffic.simulator.road.mesh.model.road.PieceModel;
+import br.udesc.traffic.simulator.road.mesh.model.road.RoadCruzamentoDown;
+import br.udesc.traffic.simulator.road.mesh.model.road.RoadCruzamentoDownLeft;
+import br.udesc.traffic.simulator.road.mesh.model.road.RoadCruzamentoLeft;
+import br.udesc.traffic.simulator.road.mesh.model.road.RoadCruzamentoRight;
+import br.udesc.traffic.simulator.road.mesh.model.road.RoadCruzamentoRightDown;
+import br.udesc.traffic.simulator.road.mesh.model.road.RoadCruzamentoUp;
+import br.udesc.traffic.simulator.road.mesh.model.road.RoadCruzamentoUpLeft;
+import br.udesc.traffic.simulator.road.mesh.model.road.RoadCruzamentoUpRight;
 import br.udesc.traffic.simulator.road.mesh.model.road.RoadDown;
 import br.udesc.traffic.simulator.road.mesh.model.road.RoadLeft;
 import br.udesc.traffic.simulator.road.mesh.model.road.RoadRight;
@@ -47,6 +55,30 @@ public class TrafficSimulatorController implements AbstractTrafficSimulatorTable
 		}
 		case GlobalContants.LEFT: {
 			return new RoadLeft(tipo);
+		}
+		case GlobalContants.CRUZAMENTO_DOWN: {
+			return new RoadCruzamentoDown(tipo);
+		}
+		case GlobalContants.CRUZAMENTO_UP: {
+			return new RoadCruzamentoUp(tipo);
+		}
+		case GlobalContants.CRUZAMENTO_LEFT: {
+			return new RoadCruzamentoLeft(tipo);
+		}
+		case GlobalContants.CRUZAMENTO_RIGHT: {
+			return new RoadCruzamentoRight(tipo);
+		}
+		case GlobalContants.CRUZAMENTO_DOWN_LEFT: {
+			return new RoadCruzamentoDownLeft(tipo);
+		}
+		case GlobalContants.CRUZAMENTO_RIGHT_DOWN: {
+			return new RoadCruzamentoRightDown(tipo);
+		}
+		case GlobalContants.CRUZAMENTO_UP_LEFT: {
+			return new RoadCruzamentoUpLeft(tipo);
+		}
+		case GlobalContants.CRUZAMENTO_UP_RIGHT: {
+			return new RoadCruzamentoUpRight(tipo);
 		}
 		default:
 			return null;

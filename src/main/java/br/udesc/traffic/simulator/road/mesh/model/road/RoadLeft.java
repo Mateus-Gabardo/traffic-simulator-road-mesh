@@ -10,7 +10,7 @@ public class RoadLeft extends PieceModel{
 	
 	@Override
 	public String getPathImageIcon() {
-		return ImageUtils.createImagePath("/road/LEFT");
+		return ImageUtils.createImagePath("/road/left");
 	}
 
 	@Override

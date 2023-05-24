@@ -21,15 +21,12 @@ public class PieceCellRenderer extends DefaultTableCellRenderer {
 	}
 
 	@Override
-	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
-			int row, int column) {
+	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
 		this.setOpaque(false);
 		this.setHorizontalAlignment(SwingConstants.CENTER);
 		this.setVerticalAlignment(SwingConstants.CENTER);
 		this.defineIcon(value, row, column);
 		this.defineSize(table, column);
-		Color gridColor = new Color(42, 94, 157);
-		this.setBorder(BorderFactory.createLineBorder(gridColor, 1));
 		return this;
 	}
 

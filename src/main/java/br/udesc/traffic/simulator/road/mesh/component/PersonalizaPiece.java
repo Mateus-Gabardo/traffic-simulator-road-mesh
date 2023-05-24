@@ -7,6 +7,7 @@ import java.awt.Image;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
+import br.udesc.traffic.simulator.road.mesh.model.GlobalContants;
 import br.udesc.traffic.simulator.road.mesh.model.road.PieceModel;
 
 public class PersonalizaPiece implements Icon {
@@ -26,9 +27,10 @@ public class PersonalizaPiece implements Icon {
 	public void paintIcon(Component c, Graphics g, int x, int y) {
 		ImageIcon pieceImg = this.pieceIcone;
 		Image newImagePiece = this.piece.getImagem(4).getImage();
-		this.paintCar(g);
-		g.drawImage(newImagePiece, 12, 12, pieceImg.getIconWidth(), pieceImg.getIconHeight(),
-				pieceImg.getImageObserver());
+		if(piece.getPossuiCar()) {
+			this.paintCar(g);			
+		}
+		g.drawImage(newImagePiece, 0, 0, GlobalContants.LARGURA_COLUNA_GRID, GlobalContants.ALTURA_GRID, pieceImg.getImageObserver());
 	}
 
 	private void paintCar(Graphics g) {
