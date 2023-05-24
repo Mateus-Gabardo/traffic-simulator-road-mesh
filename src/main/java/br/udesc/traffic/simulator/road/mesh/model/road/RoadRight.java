@@ -10,12 +10,12 @@ public class RoadRight extends PieceModel {
 
 	@Override
 	public String getPathImageIcon() {
-		return ImageUtils.createImagePath("/road/UP");
+		return ImageUtils.createImagePath("/road/right");
 	}
 
 	@Override
 	public String getPathImageCar() {
-		return ImageUtils.createImagePath("/car/car-up");
+		return ImageUtils.createImagePath("/car/car-right");
 	}
 
 }

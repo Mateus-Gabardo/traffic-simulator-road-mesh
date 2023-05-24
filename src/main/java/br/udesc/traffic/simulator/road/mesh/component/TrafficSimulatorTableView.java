@@ -8,14 +8,19 @@ import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
 
 import br.udesc.traffic.simulator.road.mesh.controller.AbstractTrafficSimulatorTableController;
+import br.udesc.traffic.simulator.road.mesh.model.GlobalContants;
 import br.udesc.traffic.simulator.road.mesh.model.TrafficSimulatorTableModel;
 
 public class TrafficSimulatorTableView extends JTable{
 	private static final long serialVersionUID = 1L;
-	private static final int ALTURA_COLUNA = 20;
 	private AbstractTrafficSimulatorTableController trafficController;
 	private TrafficSimulatorTableModel model;
 	private TableCellRenderer celula;
+	
+	public TrafficSimulatorTableView(AbstractTrafficSimulatorTableController controller) {
+		trafficController = controller;
+		init();
+	}
 	
     private void init(){
         this.defineProperties();
@@ -27,13 +32,14 @@ public class TrafficSimulatorTableView extends JTable{
          this.setOpaque(false);
          this.setBackground(new Color (92, 142, 203));
          Color gridColor = new Color(42, 94, 157);
+         setRowHeight(GlobalContants.ALTURA_GRID);
          this.setBorder(BorderFactory.createLineBorder(gridColor));
          this.setGridColor(gridColor);
      }
      
      private void iniciaComponentes(){
         this.model = new TrafficSimulatorTableModel(this.trafficController);
-        this.celula = new PieceCellRenderer(ALTURA_COLUNA);
+        this.celula = new PieceCellRenderer(GlobalContants.LARGURA_COLUNA_GRID);
      }
      
      private void addComponentes(){

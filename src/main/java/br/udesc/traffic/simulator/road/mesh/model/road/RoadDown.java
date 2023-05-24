@@ -10,7 +10,7 @@ public class RoadDown extends PieceModel{
 
 	@Override
 	public String getPathImageIcon() {
-		return ImageUtils.createImagePath("/road/DOWN");
+		return ImageUtils.createImagePath("/road/down");
 	}
 
 	@Override
