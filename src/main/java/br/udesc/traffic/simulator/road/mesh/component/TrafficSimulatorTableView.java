@@ -5,14 +5,17 @@ import java.awt.Graphics;
 
 import javax.swing.BorderFactory;
 import javax.swing.JTable;
+import javax.swing.table.TableCellRenderer;
 
 import br.udesc.traffic.simulator.road.mesh.controller.AbstractTrafficSimulatorTableController;
 import br.udesc.traffic.simulator.road.mesh.model.TrafficSimulatorTableModel;
 
 public class TrafficSimulatorTableView extends JTable{
 	private static final long serialVersionUID = 1L;
+	private static final int ALTURA_COLUNA = 20;
 	private AbstractTrafficSimulatorTableController trafficController;
 	private TrafficSimulatorTableModel model;
+	private TableCellRenderer celula;
 	
     private void init(){
         this.defineProperties();
@@ -30,12 +33,12 @@ public class TrafficSimulatorTableView extends JTable{
      
      private void iniciaComponentes(){
         this.model = new TrafficSimulatorTableModel(this.trafficController);
-        //this.celula = new DefaultTablePieceCellRenderer(this.calculateTamanhoEsquadro(), this.gameController);
+        this.celula = new PieceCellRenderer(ALTURA_COLUNA);
      }
      
      private void addComponentes(){
          this.setModel(this.model);
-         //this.setDefaultRenderer(Object.class, this.celula);
+         this.setDefaultRenderer(Object.class, this.celula);
      }
      
      @Override

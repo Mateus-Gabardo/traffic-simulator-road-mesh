@@ -4,25 +4,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.udesc.traffic.simulator.road.mesh.observer.ObserverView;
+import br.udesc.traffic.simulator.road.mesh.singleton.MeshRepository;
 
 public class TrafficSimulatorController implements AbstractTrafficSimulatorTableController, AbstractController{
 	List<ObserverView> observers;
+	private int[][] roadMesh;
 		
 	public TrafficSimulatorController() {
 		super();
 		observers = new ArrayList<>();
+		this.roadMesh = MeshRepository.getInstance().getRoadMesh();
 	}
 
 	@Override
 	public int getRowCount() {
-		// TODO Auto-generated method stub
-		return 0;
+		return roadMesh.length;
 	}
 
 	@Override
 	public int getColumnCount() {
-		// TODO Auto-generated method stub
-		return 0;
+		return roadMesh[0].length;
 	}
 
 	@Override

@@ -17,4 +17,12 @@ public class MeshRepository {
     public int[][] getRoadMesh(){
     	return this.roadMesh;
     }
+    
+    public int getLineSize() {
+    	return roadMesh.length;
+    }
+    
+    public int getColumnSize() {
+    	return roadMesh[0].length;
+    }
 }
