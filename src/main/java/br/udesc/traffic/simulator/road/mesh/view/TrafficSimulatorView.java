@@ -6,7 +6,12 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 
 import br.udesc.traffic.simulator.road.mesh.component.TrafficSimulatorTableView;
 import br.udesc.traffic.simulator.road.mesh.controller.TrafficSimulatorController;
@@ -17,6 +22,7 @@ public class TrafficSimulatorView extends JFrame implements ObserverView{
 	
 	private static final long serialVersionUID = 1L;
 	private TrafficSimulatorController controller;
+	private JLabel numeroTrheads;
 
 	public TrafficSimulatorView(){
 		super();
@@ -39,21 +45,88 @@ public class TrafficSimulatorView extends JFrame implements ObserverView{
 	}
 	
 	private void addComponents() {
-		TrafficSimulatorTableView board = new TrafficSimulatorTableView(controller);
-		setTitle("Simulador de Malha Viária");
-		setLayout(new GridBagLayout());
-		// DISTANCIA ENTRE OS COMPONENTES
-        Insets defaultInsets = new Insets(5, 5, 5, 5);
-        GridBagConstraints cons;
-        // POSICIONAMENTO DO GRID
-        cons = new GridBagConstraints();
-        cons.gridx = 0;
-        cons.gridy = 1;
-        cons.gridwidth = 5;
-        cons.gridheight = 5;
-        cons.anchor = GridBagConstraints.PAGE_START;
-        cons.insets = defaultInsets;
-        add(board, cons);
+	    TrafficSimulatorTableView board = new TrafficSimulatorTableView(controller);
+	    GridBagLayout layout = new GridBagLayout();
+	    GridBagConstraints constraints = new GridBagConstraints();
+	    
+	    // Labels
+	    JLabel lblTituloNumeroThread = new JLabel("n° Threads");
+	    lblTituloNumeroThread.setPreferredSize(new Dimension(GlobalContants.LARGURA_TELA/6, GlobalContants.LARGURA_COLUNA_GRID));
+	    
+	    JLabel lblTituloThreadAtual = new JLabel("Threads em funcionamento");
+	    lblTituloThreadAtual.setPreferredSize(new Dimension(GlobalContants.LARGURA_TELA/6, GlobalContants.LARGURA_COLUNA_GRID));
+	    
+	    // Buttons
+	    JButton btnIniciar = new JButton("INICIAR");
+	    btnIniciar.setPreferredSize(new Dimension(GlobalContants.LARGURA_TELA/6, GlobalContants.LARGURA_COLUNA_GRID));
+	    
+	    JButton btnEncerrar = new JButton("ENCERRAR");
+	    btnEncerrar.setPreferredSize(new Dimension(GlobalContants.LARGURA_TELA/6, GlobalContants.LARGURA_COLUNA_GRID));
+	    btnEncerrar.setEnabled(false);
+	    
+	    // TextField
+	    JTextField txtNumeroThreads = new JTextField();
+	    txtNumeroThreads.setPreferredSize(new Dimension(GlobalContants.LARGURA_TELA/6, GlobalContants.LARGURA_COLUNA_GRID));
+	    
+	    // Labels
+	    JLabel numeroThreads = new JLabel("0");
+	    numeroThreads.setPreferredSize(new Dimension(GlobalContants.LARGURA_TELA/6, GlobalContants.LARGURA_COLUNA_GRID));
+	    
+	    // JPanel panLinhasBotoes
+	    JPanel panLinhasBotoes = new JPanel();
+	    panLinhasBotoes.setLayout(layout);
+	    
+	    constraints.gridx = 0;
+	    constraints.gridy = 0;
+	    constraints.insets = new Insets(0, 10, 0, 10);
+	    panLinhasBotoes.add(lblTituloNumeroThread, constraints);
+	    
+	    constraints.gridx = 1;
+	    panLinhasBotoes.add(lblTituloThreadAtual, constraints);
+	    
+	    constraints.gridx = 0;
+	    constraints.gridy = 1;
+	    constraints.insets = new Insets(10, 10, 0, 10);
+	    panLinhasBotoes.add(txtNumeroThreads, constraints);
+	    
+	    constraints.gridx = 1;
+	    panLinhasBotoes.add(numeroThreads, constraints);
+	    
+	    constraints.gridx = 0;
+	    constraints.gridy = 2;
+	    constraints.insets = new Insets(0, 10, 10, 10);
+	    panLinhasBotoes.add(btnIniciar, constraints);
+	    
+	    constraints.gridx = 1;
+	    panLinhasBotoes.add(btnEncerrar, constraints);
+	    
+	    // JPanel jpTraffic
+	    JPanel jpTraffic = new JPanel();
+	    jpTraffic.setLayout(layout);
+	    jpTraffic.add(board, constraints);
+	    
+	    // JPanel panLayout
+	    JPanel panLayout = new JPanel();
+	    panLayout.setLayout(layout);
+	    panLayout.setSize(GlobalContants.LARGURA_TELA, GlobalContants.ALTURA_TELA);
+	    
+	    constraints.gridx = 0;
+	    constraints.gridy = 0;
+	    panLayout.add(panLinhasBotoes, constraints);
+	    
+	    constraints.gridy = 1;
+	    panLayout.add(jpTraffic, constraints);
+	    
+	    // JScrollPane scpScroll
+	    JScrollPane scpScroll = new JScrollPane(panLayout);
+	    
+	    setTitle("Malha rodoviaria");
+	    setVisible(true);
+	    setSize(GlobalContants.LARGURA_TELA, GlobalContants.ALTURA_TELA);
+	    setLocationRelativeTo(null);
+	    setDefaultCloseOperation(EXIT_ON_CLOSE);
+	    setContentPane(scpScroll);
 	}
+
 
 }

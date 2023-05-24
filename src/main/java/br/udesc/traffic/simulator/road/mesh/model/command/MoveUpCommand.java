@@ -14,18 +14,10 @@ public class MoveUpCommand extends MoveCarCommand{
     @Override
     public void execute(Car car) {
         AbstractPieceTable nextPiece = null;
-        try {
-            nextPiece.getNextPieceTable(car);
-            if (nextPiece != null) {
+        nextPiece.getNextPieceTable(car);
+		if (nextPiece != null) {
 
-            }
-        } catch (InterruptedException e) {
-            abstractPieceTable.release();
-            if (nextPiece != null) {
-                nextPiece.release();
-            }
-            car.setBlockedTrue();
-        }
+		}
     }
 
     @Override

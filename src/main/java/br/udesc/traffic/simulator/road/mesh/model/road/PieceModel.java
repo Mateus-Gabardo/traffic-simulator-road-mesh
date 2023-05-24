@@ -12,7 +12,7 @@ public abstract class PieceModel {
 
 	public PieceModel(int tipo) {
 		this.tipo = tipo;
-		this.possuiCar = false;
+		this.possuiCar = true;
 	}
 
 	public int getTipo() {

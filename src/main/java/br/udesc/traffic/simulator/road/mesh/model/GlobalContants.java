@@ -16,9 +16,9 @@ public class GlobalContants {
 	public static final int CRUZAMENTO_DOWN_LEFT = 12;
 	
 	///DEFINIÇÕES GERAIS
-	public static final int LARGURA_TELA = 1020;
-	public static final int ALTURA_TELA = 800;
-	public static final int LARGURA_COLUNA_GRID = 40;
-	public static final int ALTURA_GRID = 40;
+	public static final int LARGURA_TELA = 1080;
+	public static final int ALTURA_TELA = 980;
+	public static final int LARGURA_COLUNA_GRID = 35;
+	public static final int ALTURA_GRID = 35;
 
 }
