@@ -1,6 +1,6 @@
 package br.udesc.traffic.simulator.road.mesh.model.node;
 
-import br.udesc.traffic.simulator.road.mesh.model.observer.ObserverPieceTable;
+import br.udesc.traffic.simulator.road.mesh.model.observer.ObserverNode;
 import br.udesc.traffic.simulator.road.mesh.model.thread.Car;
 
 import java.util.concurrent.locks.Lock;
@@ -10,7 +10,7 @@ public class NodeMonitor extends AbstractNode{
 
     private ReentrantLock position = new ReentrantLock();
 
-    public NodeMonitor(int x, int y, ObserverPieceTable observer, Lock position) {
+    public NodeMonitor(int x, int y, ObserverNode observer, Lock position) {
         super(x, y, observer);
     }
 

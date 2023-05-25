@@ -1,15 +1,15 @@
 package br.udesc.traffic.simulator.road.mesh.model.node;
 
-import br.udesc.traffic.simulator.road.mesh.model.observer.ObserverPieceTable;
+import br.udesc.traffic.simulator.road.mesh.model.observer.ObserverNode;
 import br.udesc.traffic.simulator.road.mesh.model.thread.Car;
 
 import java.util.concurrent.Semaphore;
 
-public class NodeMutex extends AbstractNode{
+public class NodeSemaphore extends AbstractNode{
 
     private Semaphore semaphore = new Semaphore(1);
 
-    public NodeMutex(int x, int y, ObserverPieceTable observer) {
+    public NodeSemaphore(int x, int y, ObserverNode observer) {
         super(x, y, observer);
     }
 

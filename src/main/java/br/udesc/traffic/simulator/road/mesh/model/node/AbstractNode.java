@@ -1,7 +1,6 @@
 package br.udesc.traffic.simulator.road.mesh.model.node;
 
-import br.udesc.traffic.simulator.road.mesh.model.observer.ObserverPieceTable;
-import br.udesc.traffic.simulator.road.mesh.model.tables.AbstractPieceTable;
+import br.udesc.traffic.simulator.road.mesh.model.observer.ObserverNode;
 import br.udesc.traffic.simulator.road.mesh.model.thread.Car;
 
 public abstract class AbstractNode {
@@ -11,9 +10,9 @@ public abstract class AbstractNode {
     private AbstractNode moveLeft;
     private int x;
     private int y;
-    private ObserverPieceTable observer;
+    private ObserverNode observer;
 
-    public AbstractNode(int x, int y, ObserverPieceTable observer) {
+    public AbstractNode(int x, int y, ObserverNode observer) {
         this.moveUp = null;
         this.moveDown = null;
         this.moveRight = null;

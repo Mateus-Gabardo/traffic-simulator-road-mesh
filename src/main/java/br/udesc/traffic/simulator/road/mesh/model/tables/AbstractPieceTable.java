@@ -3,7 +3,7 @@ package br.udesc.traffic.simulator.road.mesh.model.tables;
 import br.udesc.traffic.simulator.road.mesh.model.command.CommandInvoker;
 import br.udesc.traffic.simulator.road.mesh.model.command.MoveCarCommand;
 import br.udesc.traffic.simulator.road.mesh.model.command.MoveUpCommand;
-import br.udesc.traffic.simulator.road.mesh.model.observer.ObserverPieceTable;
+import br.udesc.traffic.simulator.road.mesh.model.observer.ObserverNode;
 import br.udesc.traffic.simulator.road.mesh.model.thread.Car;
 
 public abstract class AbstractPieceTable {
@@ -11,7 +11,7 @@ public abstract class AbstractPieceTable {
     //normal piece
     private final int LINE;
     private final int COLUMN;
-    private ObserverPieceTable observer;
+    private ObserverNode observer;
     protected CommandInvoker commandInvoker;
     private MoveCarCommand moveCarCommand;
 
@@ -23,7 +23,7 @@ public abstract class AbstractPieceTable {
 
     private boolean isCrossing;
 
-    public AbstractPieceTable(int LINE, int COLUMN, ObserverPieceTable observer, boolean isCrossing) {
+    public AbstractPieceTable(int LINE, int COLUMN, ObserverNode observer, boolean isCrossing) {
         this.LINE = LINE;
         this.COLUMN = COLUMN;
         this.observer = observer;
@@ -43,7 +43,7 @@ public abstract class AbstractPieceTable {
         return COLUMN;
     }
 
-    public ObserverPieceTable  getObserver() {
+    public ObserverNode getObserver() {
         return observer;
     }
 
