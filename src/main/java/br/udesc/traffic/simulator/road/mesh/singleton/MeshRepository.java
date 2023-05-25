@@ -82,84 +82,51 @@ public class MeshRepository {
         for (int row = 0; row < roadMesh.length; row++) {
             for (int column = 0; column < roadMesh[0].length; column++) {
                 int typeRoad = roadMesh[row][column];
-                boolean isOK = true;
                 switch (typeRoad) {
                     case GlobalContants.UP:
-                    case GlobalContants.CRUZAMENTO_UP:
-                        if (row - 1 < 0) {
-                            isOK = false;
-                        }
-                        if (isOK) {
-                            this.nodeMesh[row][column].setMoveUp(this.nodeMesh[row - 1][column]);
-                        }
-                        break;
+                    case GlobalContants.CRUZAMENTO_UP: {
+                    	setMoveUp(row, column, row-1, column);
+                    	break;
+                    }
                     case GlobalContants.RIGHT:
-                    case GlobalContants.CRUZAMENTO_RIGHT:
-                        if (column + 1 > roadMesh[0].length) {
-                            isOK = false;
-                        }
-                        if (isOK) {
-                            this.nodeMesh[row][column].setMoveRight(this.nodeMesh[row][column + 1]);
-                        }
+                    case GlobalContants.CRUZAMENTO_RIGHT: {
+                    	setMoveRight(row, column, row, column+1);
                         break;
+                    }
                     case GlobalContants.DOWN:
-                    case GlobalContants.CRUZAMENTO_DOWN:
-                        if (row + 1 > roadMesh.length) {
-                            isOK = false;
-                        }
-                        if (isOK) {
-                            this.nodeMesh[row][column].setMoveDown(this.nodeMesh[row + 1][column]);
-                        }
+                    case GlobalContants.CRUZAMENTO_DOWN: {
+                    	setMoveDown(row, column, row+1, column);
                         break;
+                    }
                     case GlobalContants.LEFT:
-                    case GlobalContants.CRUZAMENTO_LEFT:
-                        if (column - 1 > 0) {
-                            isOK = false;
-                        }
-                        if (isOK) {
-                            this.nodeMesh[row][column].setMoveLeft(this.nodeMesh[row][column - 1]);
-                        }
+                    case GlobalContants.CRUZAMENTO_LEFT: {
+                    	setMoveLeft(row, column, row, column-1);
                         break;
-                    case GlobalContants.CRUZAMENTO_DOWN_LEFT:
-                        if (row + 1 > roadMesh.length || column - 1 > 0) {
-                            isOK = false;
-                        }
-                        if (isOK) {
-                            this.nodeMesh[row][column].setMoveDown(this.nodeMesh[row + 1][column]);
-                            this.nodeMesh[row][column].setMoveLeft(this.nodeMesh[row][column - 1]);
-                        }
+                    }
+                    case GlobalContants.CRUZAMENTO_DOWN_LEFT: {
+                    	setMoveDown(row, column, row+1, column);
+                    	setMoveLeft(row, column, row, column-1);
                         break;
-                    case GlobalContants.CRUZAMENTO_RIGHT_DOWN:
-                        if (column + 1 > roadMesh[0].length || row + 1 > roadMesh.length) {
-                            isOK = false;
-                        }
-                        if (isOK) {
-                            this.nodeMesh[row][column].setMoveRight(this.nodeMesh[row][column + 1]);
-                            this.nodeMesh[row][column].setMoveDown(this.nodeMesh[row + 1][column]);
-                        }
+                    }
+                    case GlobalContants.CRUZAMENTO_RIGHT_DOWN: {
+                    	setMoveRight(row, column, row, column+1);
+                    	setMoveDown(row, column, row+1, column);
                         break;
-                    case GlobalContants.CRUZAMENTO_UP_LEFT:
-                        if (row - 1 < 0 || column - 1 > 0) {
-                            isOK = false;
-                        }
-                        if (isOK) {
-                            this.nodeMesh[row][column].setMoveUp(this.nodeMesh[row - 1][column]);
-                            this.nodeMesh[row][column].setMoveLeft(this.nodeMesh[row][column - 1]);
-                        }
+                    }
+                    case GlobalContants.CRUZAMENTO_UP_LEFT: {
+                    	setMoveUp(row, column, row-1, column);
+                    	setMoveLeft(row, column, row, column-1);
                         break;
-                    case GlobalContants.CRUZAMENTO_UP_RIGHT:
-                        if (row - 1 < 0 || column + 1 > roadMesh[0].length) {
-                            isOK = false;
-                        }
-                        if (isOK) {
-                            this.nodeMesh[row][column].setMoveUp(this.nodeMesh[row - 1][column]);
-                            this.nodeMesh[row][column].setMoveRight(this.nodeMesh[row][column + 1]);
-                        }
+                    }
+                    case GlobalContants.CRUZAMENTO_UP_RIGHT: {
+                    	setMoveUp(row, column, row-1, column);
+                    	setMoveRight(row, column, row, column+1);
                         break;
+                    }
                 }
             }
         }
-        return this.nodeMesh;
+        return nodeMesh;
     }
     
     private boolean permiteLeft(int column) {
