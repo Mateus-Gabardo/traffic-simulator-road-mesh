@@ -9,8 +9,8 @@ public class NodeSemaphore extends AbstractNode{
 
     private Semaphore semaphore = new Semaphore(1);
 
-    public NodeSemaphore(int x, int y, ObserverNode observer) {
-        super(x, y, observer);
+    public NodeSemaphore(int x, int y, int type, ObserverNode observer) {
+        super(x, y, type, observer);
     }
 
     @Override

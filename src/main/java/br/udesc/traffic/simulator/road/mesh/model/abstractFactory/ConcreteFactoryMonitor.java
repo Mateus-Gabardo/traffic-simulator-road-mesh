@@ -8,12 +8,12 @@ import br.udesc.traffic.simulator.road.mesh.model.observer.ObserverNode;
 public class ConcreteFactoryMonitor extends AbstractFactoryThreads{
 
 	@Override
-	public AbstractNode createNode(int x, int y, ObserverNode observer) {
-		return new NodeMonitor(x, y, observer);
+	public AbstractNode createNode(int x, int y, int type, ObserverNode observer) {
+		return new NodeMonitor(x, y, type, observer);
 	}
 
 	@Override
-	public AbstractNode createCrossNode(int x, int y, ObserverNode observer) {
-		return new NodeCrossMonitor(x, y, observer);
+	public AbstractNode createCrossNode(int x, int y, int type, ObserverNode observer) {
+		return new NodeCrossMonitor(x, y, type, observer);
 	}
 }

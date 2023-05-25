@@ -10,15 +10,17 @@ public abstract class AbstractNode {
     private AbstractNode moveLeft;
     private int line;
     private int column;
+    private int type;
     private ObserverNode observer;
 
-    public AbstractNode(int x, int y, ObserverNode observer) {
+    public AbstractNode(int x, int y, int type, ObserverNode observer) {
         this.moveUp = null;
         this.moveDown = null;
         this.moveRight = null;
         this.moveLeft = null;
         this.line = x;
         this.column = y;
+        this.type = type;
         this.observer = observer;
     }
 
@@ -60,6 +62,10 @@ public abstract class AbstractNode {
 
     public int getColumn() {
         return column;
+    }
+    
+    public int getType() {
+    	return type;
     }
     
     public ObserverNode getObserver() {

@@ -3,7 +3,6 @@ package br.udesc.traffic.simulator.road.mesh.singleton;
 import br.udesc.traffic.simulator.road.mesh.model.GlobalContants;
 import br.udesc.traffic.simulator.road.mesh.model.node.*;
 import br.udesc.traffic.simulator.road.mesh.model.observer.ObserverNode;
-import br.udesc.traffic.simulator.road.mesh.model.road.*;
 
 public class MeshRepository {
 	private static MeshRepository instance;
@@ -35,24 +34,25 @@ public class MeshRepository {
     public AbstractNode[][] createNodeMesh(ObserverNode observer, int type) {
 
         this.nodeMesh = new AbstractNode[roadMesh.length][roadMesh[0].length];
-        GlobalContants contants = new GlobalContants();
 
         for (int i = 0; i < roadMesh.length; i++) {
             for (int j = 0; j < roadMesh[0].length; j++) {
+            	int typeRoad = roadMesh[i][j];
+            	
                 if (roadMesh[i][j] >= 1 && roadMesh[i][j] <= 4) {
                     if (type == GlobalContants.MONITOR){
-                        AbstractNode novo = new NodeMonitor(i, j, observer);
+                        AbstractNode novo = new NodeMonitor(i, j, typeRoad, observer);
                         nodeMesh[i][j] = novo;
                     } else {
-                        AbstractNode novo = new NodeSemaphore(i, j, observer);
+                        AbstractNode novo = new NodeSemaphore(i, j, typeRoad, observer);
                         nodeMesh[i][j] = novo;
                     }
                 } else if (roadMesh[i][j] >= 5 && roadMesh[i][j] <= 12) {
-                    if (type == 1){
-                        AbstractNode novo = new NodeCrossMonitor(i, j, observer);
+                    if (type == GlobalContants.MONITOR){
+                        AbstractNode novo = new NodeCrossMonitor(i, j, typeRoad, observer);
                         nodeMesh[i][j] = novo;
                     } else {
-                        AbstractNode novo = new NodeCrossSemaphore(i, j, observer);
+                        AbstractNode novo = new NodeCrossSemaphore(i, j, typeRoad, observer);
                         nodeMesh[i][j] = novo;
                     }
                 }

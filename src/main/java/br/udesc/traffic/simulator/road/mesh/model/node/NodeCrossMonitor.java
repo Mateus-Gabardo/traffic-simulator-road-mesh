@@ -7,8 +7,8 @@ import java.util.Random;
 
 public class NodeCrossMonitor extends AbstractNode{
 
-	public NodeCrossMonitor(int x, int y, ObserverNode observer) {
-		super(x, y, observer);
+	public NodeCrossMonitor(int x, int y, int type, ObserverNode observer) {
+		super(x, y, type, observer);
 		// TODO Auto-generated constructor stub
 	}
 
