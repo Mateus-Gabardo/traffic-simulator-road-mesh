@@ -18,7 +18,7 @@ public class NodeCrossMonitor extends AbstractNode{
 
 	@Override
 	public AbstractNode getNextNode(Car car) {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 

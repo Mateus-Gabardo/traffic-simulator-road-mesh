@@ -40,7 +40,7 @@ public class MeshRepository {
         for (int i = 0; i < roadMesh.length; i++) {
             for (int j = 0; j < roadMesh[0].length; j++) {
                 if (roadMesh[i][j] >= 1 && roadMesh[i][j] <= 4) {
-                    if (type == 1){
+                    if (type == GlobalContants.MONITOR){
                         AbstractNode novo = new NodeMonitor(i, j, observer);
                         nodeMesh[i][j] = novo;
                     } else {

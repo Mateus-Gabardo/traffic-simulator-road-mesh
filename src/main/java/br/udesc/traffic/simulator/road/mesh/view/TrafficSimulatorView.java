@@ -16,9 +16,11 @@ import javax.swing.JTextField;
 import br.udesc.traffic.simulator.road.mesh.component.TrafficSimulatorTableView;
 import br.udesc.traffic.simulator.road.mesh.controller.TrafficSimulatorController;
 import br.udesc.traffic.simulator.road.mesh.model.GlobalContants;
+import br.udesc.traffic.simulator.road.mesh.model.observer.ObserverNode;
+import br.udesc.traffic.simulator.road.mesh.model.thread.Car;
 import br.udesc.traffic.simulator.road.mesh.observer.ObserverView;
 
-public class TrafficSimulatorView extends JFrame implements ObserverView{
+public class TrafficSimulatorView extends JFrame implements ObserverNode {
 	
 	private static final long serialVersionUID = 1L;
 	private TrafficSimulatorController controller;
@@ -26,7 +28,7 @@ public class TrafficSimulatorView extends JFrame implements ObserverView{
 
 	public TrafficSimulatorView(){
 		super();
-		controller = new TrafficSimulatorController();
+		controller = new TrafficSimulatorController(1, this);
 		controller.addObserver(this);
 		init();
 	}
@@ -129,4 +131,18 @@ public class TrafficSimulatorView extends JFrame implements ObserverView{
 	}
 
 
+	@Override
+	public void notifyStartCar(int line, int column) {
+
+	}
+
+	@Override
+	public void notifyMoveCar(int pastLine, int pastColumn, int newLine, int newColumn) {
+
+	}
+
+	@Override
+	public void notifyEndCar(int line, int column, Car car) {
+
+	}
 }

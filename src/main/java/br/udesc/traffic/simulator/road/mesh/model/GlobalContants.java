@@ -21,4 +21,7 @@ public class GlobalContants {
 	public static final int LARGURA_COLUNA_GRID = 35;
 	public static final int ALTURA_GRID = 35;
 
+	///DEFINIÇÕES TIPO
+	public static final int MONITOR = 1;
+	public static final int SEMAPHOR = 2;
 }

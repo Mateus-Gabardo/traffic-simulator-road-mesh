@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.udesc.traffic.simulator.road.mesh.model.GlobalContants;
+import br.udesc.traffic.simulator.road.mesh.model.node.AbstractNode;
 import br.udesc.traffic.simulator.road.mesh.model.observer.ObserverNode;
 import br.udesc.traffic.simulator.road.mesh.model.road.PieceModel;
 import br.udesc.traffic.simulator.road.mesh.model.road.RoadCruzamentoDown;
@@ -18,18 +19,20 @@ import br.udesc.traffic.simulator.road.mesh.model.road.RoadDown;
 import br.udesc.traffic.simulator.road.mesh.model.road.RoadLeft;
 import br.udesc.traffic.simulator.road.mesh.model.road.RoadRight;
 import br.udesc.traffic.simulator.road.mesh.model.road.RoadUp;
-import br.udesc.traffic.simulator.road.mesh.observer.ObserverView;
 import br.udesc.traffic.simulator.road.mesh.singleton.MeshRepository;
 
 public class TrafficSimulatorController implements AbstractTrafficSimulatorTableController, AbstractController {
-	List<ObserverView> observers;
+	List<ObserverNode> observers;
 	ObserverNode observerNode;
 	private int[][] roadMesh;
+	private AbstractNode[][] nodeMesh;
 
-	public TrafficSimulatorController() {
+	public TrafficSimulatorController(int type, ObserverNode observerNode) {
 		super();
-		observers = new ArrayList<>();
+		this.observers = new ArrayList<>();
+		this.observerNode = observerNode;
 		this.roadMesh = MeshRepository.getInstance().getRoadMesh();
+		this.nodeMesh = MeshRepository.getInstance().createNodeMesh(observerNode, type);
 	}
 
 	@Override
@@ -88,21 +91,20 @@ public class TrafficSimulatorController implements AbstractTrafficSimulatorTable
 	}
 
 	@Override
-	public void addObserver(ObserverView view) {
-		observers.add(view);
+	public void addObserver(ObserverNode observer) {
+		observers.add(observer);
 	}
 
 	@Override
-	public void removeObserver(ObserverView view) {
-		observers.remove(view);
-
+	public void removeObserver(ObserverNode observer) {
+		observers.remove(observer);
 	}
 
 	@Override
 	public void notifyObserver() {
-		for (ObserverView view : observers) {
-			// chama algum metodo que deve ser implementado na view
-			// atualizar a tela por exemplo
+		for (ObserverNode observer : observers) {
+//			chama algum metodo que deve ser implementado na view
+//			atualizar a tela por exemplo
 		}
 	}
 
@@ -120,5 +122,4 @@ public class TrafficSimulatorController implements AbstractTrafficSimulatorTable
 			return true;
 		}
 	}
-
 }
