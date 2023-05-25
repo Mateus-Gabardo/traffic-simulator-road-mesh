@@ -12,11 +12,11 @@ public class NodeMonitor extends AbstractNode {
     private ReentrantLock recurse = new ReentrantLock();
 
     public NodeMonitor(int x, int y, int type, ObserverNode observer) {
-        super(x, y, type, observer);
+        super(x, y, type, observer, false);
     }
 
     @Override
-    public void moveCar(Car car) {
+    public synchronized void moveCar(Car car) {
     	
     }
 

@@ -10,11 +10,11 @@ public class NodeSemaphore extends AbstractNode{
     private Semaphore semaphore = new Semaphore(1);
 
     public NodeSemaphore(int x, int y, int type, ObserverNode observer) {
-        super(x, y, type, observer);
+        super(x, y, type, observer, false);
     }
 
     @Override
-    public void moveCar(Car car) {
+    public synchronized void moveCar(Car car) {
 
     }
 

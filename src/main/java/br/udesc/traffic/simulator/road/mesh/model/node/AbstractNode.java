@@ -11,9 +11,10 @@ public abstract class AbstractNode {
     private int line;
     private int column;
     private int type;
+    private boolean isCross;
     private ObserverNode observer;
 
-    public AbstractNode(int x, int y, int type, ObserverNode observer) {
+    public AbstractNode(int x, int y, int type, ObserverNode observer, boolean isCross) {
         this.moveUp = null;
         this.moveDown = null;
         this.moveRight = null;
@@ -22,6 +23,7 @@ public abstract class AbstractNode {
         this.column = y;
         this.type = type;
         this.observer = observer;
+        this.isCross = isCross;
     }
 
     public void setMoveUp(AbstractNode moveUp) {
@@ -67,7 +69,11 @@ public abstract class AbstractNode {
     public int getType() {
     	return type;
     }
-    
+
+    public boolean getIsCross() {
+        return isCross;
+    }
+
     public ObserverNode getObserver() {
     	return this.observer;
     }
