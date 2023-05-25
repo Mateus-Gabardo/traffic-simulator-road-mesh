@@ -18,9 +18,9 @@ public class NodeCrossSemaphore extends AbstractNode {
 	}
 
 	@Override
-	public synchronized void moveCar(Car car) {
+	public synchronized void moveCar(Car car) throws InterruptedException {
 		AbstractNode nextNode = null;
-		AbstractNode actual = this;
+		AbstractNode actual = car.getNodeAtual();
 		List<AbstractNode> nodesCross = new ArrayList<>();
 
 		try{
@@ -74,13 +74,14 @@ public class NodeCrossSemaphore extends AbstractNode {
 				nextNode.release();
 			}
 			car.setBlockedTrue();
+			throw new InterruptedException();
 		}
 	}
 
 	@Override
 	public AbstractNode getNextNode(Car car) {
 		Random random = new Random();
-		AbstractNode actual = this;
+		AbstractNode actual = car.getNodeAtual();
 		boolean find = false;
 		while (!find) {
 			int randomValue = random.nextInt(4) + 1;
