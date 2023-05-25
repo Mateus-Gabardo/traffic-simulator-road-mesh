@@ -18,17 +18,16 @@ import br.udesc.traffic.simulator.road.mesh.controller.TrafficSimulatorControlle
 import br.udesc.traffic.simulator.road.mesh.model.GlobalContants;
 import br.udesc.traffic.simulator.road.mesh.model.observer.ObserverNode;
 import br.udesc.traffic.simulator.road.mesh.model.thread.Car;
-import br.udesc.traffic.simulator.road.mesh.observer.ObserverView;
 
 public class TrafficSimulatorView extends JFrame implements ObserverNode {
 	
 	private static final long serialVersionUID = 1L;
 	private TrafficSimulatorController controller;
-	private JLabel numeroTrheads;
+	private JLabel lblNumeroThreadAtual;
 
-	public TrafficSimulatorView(){
+	public TrafficSimulatorView(int type){
 		super();
-		controller = new TrafficSimulatorController(1, this);
+		controller = new TrafficSimulatorController(type);
 		controller.addObserver(this);
 		init();
 	}
@@ -48,11 +47,12 @@ public class TrafficSimulatorView extends JFrame implements ObserverNode {
 	
 	private void addComponents() {
 	    TrafficSimulatorTableView board = new TrafficSimulatorTableView(controller);
+	    
 	    GridBagLayout layout = new GridBagLayout();
 	    GridBagConstraints constraints = new GridBagConstraints();
 	    
 	    // Labels
-	    JLabel lblTituloNumeroThread = new JLabel("n° Threads");
+	    JLabel lblTituloNumeroThread = new JLabel("N° Threads");
 	    lblTituloNumeroThread.setPreferredSize(new Dimension(GlobalContants.LARGURA_TELA/6, GlobalContants.LARGURA_COLUNA_GRID));
 	    
 	    JLabel lblTituloThreadAtual = new JLabel("Threads em funcionamento");
@@ -71,8 +71,9 @@ public class TrafficSimulatorView extends JFrame implements ObserverNode {
 	    txtNumeroThreads.setPreferredSize(new Dimension(GlobalContants.LARGURA_TELA/6, GlobalContants.LARGURA_COLUNA_GRID));
 	    
 	    // Labels
-	    JLabel numeroThreads = new JLabel("0");
-	    numeroThreads.setPreferredSize(new Dimension(GlobalContants.LARGURA_TELA/6, GlobalContants.LARGURA_COLUNA_GRID));
+        lblNumeroThreadAtual = new JLabel();
+        lblNumeroThreadAtual.setText("0");
+        lblNumeroThreadAtual.setPreferredSize(new Dimension(GlobalContants.LARGURA_TELA/6, GlobalContants.LARGURA_COLUNA_GRID));
 	    
 	    // JPanel panLinhasBotoes
 	    JPanel panLinhasBotoes = new JPanel();
@@ -90,9 +91,19 @@ public class TrafficSimulatorView extends JFrame implements ObserverNode {
 	    constraints.gridy = 1;
 	    constraints.insets = new Insets(10, 10, 0, 10);
 	    panLinhasBotoes.add(txtNumeroThreads, constraints);
-	    
+        
+        constraints.gridx = 3;
 	    constraints.gridx = 1;
-	    panLinhasBotoes.add(numeroThreads, constraints);
+	    panLinhasBotoes.add(lblNumeroThreadAtual, constraints);
+	    
+	    constraints.insets = new Insets(0, 0, GlobalContants.MARGEM_BOTOES, 0);
+        constraints.gridx = 0;
+        constraints.gridy = 1;
+        panLinhasBotoes.add(btnIniciar, constraints);
+        constraints.insets = new Insets(0, GlobalContants.MARGEM_BOTOES, GlobalContants.MARGEM_BOTOES, 0);
+        constraints.gridx = 1;
+        panLinhasBotoes.add(btnEncerrar, constraints);
+        constraints.gridx = 2;
 	    
 	    constraints.gridx = 0;
 	    constraints.gridy = 2;
@@ -118,22 +129,31 @@ public class TrafficSimulatorView extends JFrame implements ObserverNode {
 	    
 	    constraints.gridy = 1;
 	    panLayout.add(jpTraffic, constraints);
-	    
 	    // JScrollPane scpScroll
 	    JScrollPane scpScroll = new JScrollPane(panLayout);
-	    
 	    setTitle("Malha rodoviaria");
 	    setVisible(true);
 	    setSize(GlobalContants.LARGURA_TELA, GlobalContants.ALTURA_TELA);
 	    setLocationRelativeTo(null);
 	    setDefaultCloseOperation(EXIT_ON_CLOSE);
 	    setContentPane(scpScroll);
+	    
+	    btnIniciar.addActionListener(e -> {
+            controller.onIniciar(txtNumeroThreads.getText().toString());
+            btnEncerrar.setEnabled(true);
+            btnIniciar.setEnabled(false);
+        });
+        btnEncerrar.addActionListener(e -> {
+            controller.onEncerrarCarros();
+            btnIniciar.setEnabled(true);
+            btnEncerrar.setEnabled(false);
+        });
 	}
 
 
 	@Override
 	public void notifyStartCar(int line, int column) {
-
+		
 	}
 
 	@Override

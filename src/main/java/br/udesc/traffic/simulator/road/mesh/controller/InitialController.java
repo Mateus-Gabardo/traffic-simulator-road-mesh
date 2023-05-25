@@ -18,14 +18,15 @@ public class InitialController {
 	public void updateRoadMesh(File arquivo) {
 		try {
 			malhaViaria = ReadFileMesh.gerarRoadMesh(arquivo);
+			MeshRepository.getInstance().setRoadMesh(malhaViaria);
 			observer.ativedInitialButton();
 		} catch (Exception e) {
 			observer.notifyErrorFile();
 		}
 	}
 
-	public void navigateNextView() {
+	public void navigateNextView(int type) {
 		MeshRepository.getInstance().setRoadMesh(malhaViaria);
-		observer.navigateNextView();
+		observer.navigateNextView(type);
 	}
 }

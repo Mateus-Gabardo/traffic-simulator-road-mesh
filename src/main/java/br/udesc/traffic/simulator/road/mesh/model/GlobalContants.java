@@ -1,5 +1,7 @@
 package br.udesc.traffic.simulator.road.mesh.model;
 
+import java.awt.Toolkit;
+
 public class GlobalContants {
 	/// DEFINICOES DA MALHA
 	public static final int UP = 1;
@@ -16,12 +18,15 @@ public class GlobalContants {
 	public static final int CRUZAMENTO_DOWN_LEFT = 12;
 	
 	///DEFINIÇÕES GERAIS
-	public static final int LARGURA_TELA = 1080;
-	public static final int ALTURA_TELA = 980;
 	public static final int LARGURA_COLUNA_GRID = 35;
 	public static final int ALTURA_GRID = 35;
 
 	///DEFINIÇÕES TIPO
 	public static final int MONITOR = 1;
 	public static final int SEMAPHOR = 2;
+	
+    public static final int ALTURA_TELA = (int) (Toolkit.getDefaultToolkit().getScreenSize().getHeight()*0.8);
+    public static final int LARGURA_TELA = (int) (Toolkit.getDefaultToolkit().getScreenSize().getWidth()*0.8);
+    public static final int LADO_QUADRADO = (int) (ALTURA_TELA*0.053);
+    public static final int MARGEM_BOTOES = (int) (LARGURA_TELA * 0.00916);
 }

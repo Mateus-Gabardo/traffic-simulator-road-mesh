@@ -22,7 +22,8 @@ public class InitialView extends JFrame implements ObserverInitialView {
 	private JFileChooser jfcArquivo;
     private JTextField txtCaminho;
     private JButton btnProcurar;
-    private JButton btnIniciar;
+    private JButton btnMutext;
+    private JButton btnMonitor;
     
 	public InitialView() {
 		this.controller = new InitialController(this);
@@ -33,17 +34,17 @@ public class InitialView extends JFrame implements ObserverInitialView {
 	private void defineProperties() {
         GridBagLayout layout = new GridBagLayout();
         GridBagConstraints constraints = new GridBagConstraints();
-        JLabel lblTitulo = new JLabel("Escolha o arquivo de texto da malha rodoviaria");
+        JLabel lblTitulo = new JLabel("Escolha o arquivo da malha rodoviaria");
 
         txtCaminho = new JTextField();
-        txtCaminho.setText("Selecione um arquivo de malha rodoviaria");
+        txtCaminho.setText("Selecione um arquivo");
         txtCaminho.setPreferredSize(new Dimension(310, 26));
         txtCaminho.setMinimumSize(new Dimension(310, 26));
         txtCaminho.setEnabled(false);
 
         btnProcurar = new JButton("Procurar");
-        btnProcurar.setPreferredSize(new Dimension(90, 26));
-        btnProcurar.setMinimumSize(new Dimension(90, 26));
+        btnProcurar.setPreferredSize(new Dimension(120, 26));
+        btnProcurar.setMinimumSize(new Dimension(120, 26));
 
         JPanel panLinhaBusca = new JPanel();
         panLinhaBusca.setLayout(layout);
@@ -56,19 +57,24 @@ public class InitialView extends JFrame implements ObserverInitialView {
         constraints.insets = new Insets(0, 10, 0, 0);
         panLinhaBusca.add(btnProcurar, constraints);
         
-        // Definimos os botões
-        btnIniciar = new JButton("Iniciar");
-        btnIniciar.setPreferredSize(new Dimension(90, 26));
-        btnIniciar.setMinimumSize(new Dimension(90, 26));
-        btnIniciar.setEnabled(false);
+
+        btnMutext = new JButton("Iniciar Mutex");
+        btnMutext.setPreferredSize(new Dimension(120, 26));
+        btnMutext.setMinimumSize(new Dimension(120, 26));
+        btnMutext.setEnabled(false);
+
+        btnMonitor = new JButton("Iniciar Monitor");
+        btnMonitor.setPreferredSize(new Dimension(120, 26));
+        btnMonitor.setMinimumSize(new Dimension(120, 26));
+        btnMonitor.setEnabled(false);
         
-        // Definimos o arquivo de busca 
+
         jfcArquivo = new JFileChooser();
         jfcArquivo.setFileSelectionMode(JFileChooser.FILES_ONLY);
 
         JPanel panLayout = new JPanel();
         panLayout.setLayout(layout);
-        panLayout.setSize(450, 150);
+        panLayout.setSize(700, 250);
         constraints.gridx = 0;
         panLayout.add(lblTitulo, constraints);
         constraints.gridy = 1;
@@ -76,12 +82,14 @@ public class InitialView extends JFrame implements ObserverInitialView {
         panLayout.add(panLinhaBusca, constraints);
         constraints.gridy = 2;
         constraints.insets = new Insets(10, 320, 0, 0);
-        panLayout.add(btnIniciar, constraints);
+        panLayout.add(btnMutext, constraints);
+        constraints.gridy = 4;
+        constraints.insets = new Insets(10, 320, 0, 0);
+        panLayout.add(btnMonitor, constraints);
         
-        // Setamos as propriedades padrões da tela
         setTitle("Escolha a malha rodoviaria");
         setVisible(true);
-        setSize(450, 150);
+        setSize(600, 250);
         setResizable(false);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -93,20 +101,26 @@ public class InitialView extends JFrame implements ObserverInitialView {
             int i= jfcArquivo.showSaveDialog(null);
             if (i==1){
                 txtCaminho.setText("Selecione um arquivo de malha rodoviaria");
-                btnIniciar.setEnabled(false);
+                btnMutext.setEnabled(false);
+                btnMonitor.setEnabled(false);
             } else {
                 this.controller.updateRoadMesh(jfcArquivo.getSelectedFile());
             }
         });
         
-        btnIniciar.addActionListener(click -> {
-        	this.controller.navigateNextView();
+		btnMutext.addActionListener(click -> {
+        	this.controller.navigateNextView(1);
+        });
+		
+		btnMonitor.addActionListener(click -> {
+        	this.controller.navigateNextView(2);
         });
 	}
 
 	@Override
 	public void ativedInitialButton() {
-		 btnIniciar.setEnabled(true);
+		btnMutext.setEnabled(true);
+		btnMonitor.setEnabled(true);
 	}
 
 	@Override
@@ -119,12 +133,13 @@ public class InitialView extends JFrame implements ObserverInitialView {
 	public void notifyErrorFile() {
 		JOptionPane.showMessageDialog(null, "O arquivo selecionado não possui o padrão adequado de uma malha rodoviaria",
                 "Erro no arquivo", JOptionPane.ERROR_MESSAGE);
-        btnIniciar.setEnabled(false);
+		btnMutext.setEnabled(false);
+		btnMonitor.setEnabled(false);
 	}
 
 	@Override
-	public void navigateNextView() {
-		TrafficSimulatorView view = new TrafficSimulatorView();
+	public void navigateNextView(int type) {
+		TrafficSimulatorView view = new TrafficSimulatorView(type);
 		view.setVisible(true);
 		this.dispose();		
 	}

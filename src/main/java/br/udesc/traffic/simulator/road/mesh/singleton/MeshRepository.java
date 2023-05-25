@@ -1,5 +1,8 @@
 package br.udesc.traffic.simulator.road.mesh.singleton;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import br.udesc.traffic.simulator.road.mesh.model.GlobalContants;
 import br.udesc.traffic.simulator.road.mesh.model.node.*;
 import br.udesc.traffic.simulator.road.mesh.model.observer.ObserverNode;
@@ -8,6 +11,11 @@ public class MeshRepository {
 	private static MeshRepository instance;
 	private int[][] roadMesh;
     private AbstractNode[][] nodeMesh;
+    private List<AbstractNode> inicioNode;
+    
+    private MeshRepository() {
+    	inicioNode = new ArrayList<>();
+    }
 	
     public synchronized static MeshRepository getInstance(){
         if (instance == null)
@@ -30,10 +38,18 @@ public class MeshRepository {
     public int getColumnSize() {
     	return roadMesh[0].length;
     }
+    
+    public List<AbstractNode> getNodeInit(){
+    	return this.inicioNode;
+    }
+    
+    public void addInitNode(AbstractNode node) {
+    	inicioNode.add(node);
+    }
 
     public AbstractNode[][] createNodeMesh(ObserverNode observer, int type) {
 
-        this.nodeMesh = new AbstractNode[roadMesh.length][roadMesh[0].length];
+    	AbstractNode[][] nodeMesh = new AbstractNode[roadMesh.length][roadMesh[0].length];
 
         for (int i = 0; i < roadMesh.length; i++) {
             for (int j = 0; j < roadMesh[0].length; j++) {
@@ -103,12 +119,10 @@ public class MeshRepository {
                         nodeMesh[row][column].setMoveRight(nodeMesh[row][column+1]);
                         break;
                     }
-                    default:
-                        return null;
                 }
             }
         }
-
+        this.nodeMesh = nodeMesh;
         return nodeMesh;
     }
 }
