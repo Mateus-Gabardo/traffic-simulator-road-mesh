@@ -5,8 +5,8 @@ import br.udesc.traffic.simulator.road.mesh.model.thread.Car;
 
 public class NodeCrossSemaphore extends AbstractNode {
 
-	public NodeCrossSemaphore(int x, int y, ObserverNode observer) {
-		super(x, y, observer);
+	public NodeCrossSemaphore(int x, int y, int type, ObserverNode observer) {
+		super(x, y, type, observer);
 	}
 
 	@Override
