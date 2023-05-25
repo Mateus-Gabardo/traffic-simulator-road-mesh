@@ -12,11 +12,14 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableModel;
 
 import br.udesc.traffic.simulator.road.mesh.component.TrafficSimulatorTableView;
 import br.udesc.traffic.simulator.road.mesh.controller.TrafficSimulatorController;
 import br.udesc.traffic.simulator.road.mesh.model.GlobalContants;
 import br.udesc.traffic.simulator.road.mesh.model.observer.ObserverNode;
+import br.udesc.traffic.simulator.road.mesh.model.road.PieceModel;
 import br.udesc.traffic.simulator.road.mesh.model.thread.Car;
 
 public class TrafficSimulatorView extends JFrame implements ObserverNode {
@@ -24,6 +27,7 @@ public class TrafficSimulatorView extends JFrame implements ObserverNode {
 	private static final long serialVersionUID = 1L;
 	private TrafficSimulatorController controller;
 	private JLabel lblNumeroThreadAtual;
+	private TrafficSimulatorTableView board;
 
 	public TrafficSimulatorView(int type){
 		super();
@@ -46,7 +50,7 @@ public class TrafficSimulatorView extends JFrame implements ObserverNode {
 	}
 	
 	private void addComponents() {
-	    TrafficSimulatorTableView board = new TrafficSimulatorTableView(controller);
+	    board = new TrafficSimulatorTableView(controller);
 	    
 	    GridBagLayout layout = new GridBagLayout();
 	    GridBagConstraints constraints = new GridBagConstraints();
@@ -149,20 +153,45 @@ public class TrafficSimulatorView extends JFrame implements ObserverNode {
             btnEncerrar.setEnabled(false);
         });
 	}
+	
+    public synchronized void aumentarlThread() {
+        lblNumeroThreadAtual.setText(String.valueOf(Integer.parseInt(lblNumeroThreadAtual.getText())+1));
+    }
+    
+    public synchronized void diminuirThread() {
+        lblNumeroThreadAtual.setText(String.valueOf(Math.max(Integer.parseInt(lblNumeroThreadAtual.getText()) - 1, 0)));
+    }
 
 
 	@Override
 	public void notifyStartCar(int line, int column) {
-		
+		TableModel model = board.getModel();
+		PieceModel pieceAtual = (PieceModel) model.getValueAt(line, column);		
+		pieceAtual.setPossuiCar(true);		
+		model.setValueAt(pieceAtual, line, column);
+		board.repaint();
+		aumentarlThread();
 	}
 
 	@Override
 	public void notifyMoveCar(int pastLine, int pastColumn, int newLine, int newColumn) {
-
+		TableModel model = board.getModel();
+		PieceModel pieceAtual = (PieceModel) model.getValueAt(pastLine, pastColumn);
+		PieceModel pieceNext = (PieceModel) model.getValueAt(newLine, newColumn);
+		pieceAtual.setPossuiCar(false);
+		pieceNext.setPossuiCar(true);
+		model.setValueAt(pieceAtual, pastLine, pastColumn);
+		model.setValueAt(pieceNext, newLine, newColumn);
+		board.repaint();
 	}
 
 	@Override
 	public void notifyEndCar(int line, int column, Car car) {
-
+		TableModel model = board.getModel();
+		PieceModel pieceAtual = (PieceModel) model.getValueAt(line, column);		
+		pieceAtual.setPossuiCar(false);		
+		model.setValueAt(pieceAtual, line, column);
+		board.repaint();
+		diminuirThread();
 	}
 }
