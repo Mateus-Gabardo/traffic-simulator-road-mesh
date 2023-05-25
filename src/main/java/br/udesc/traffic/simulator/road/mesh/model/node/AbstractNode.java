@@ -8,8 +8,8 @@ public abstract class AbstractNode {
     private AbstractNode moveDown;
     private AbstractNode moveRight;
     private AbstractNode moveLeft;
-    private int x;
-    private int y;
+    private int line;
+    private int column;
     private ObserverNode observer;
 
     public AbstractNode(int x, int y, ObserverNode observer) {
@@ -17,8 +17,8 @@ public abstract class AbstractNode {
         this.moveDown = null;
         this.moveRight = null;
         this.moveLeft = null;
-        this.x = x;
-        this.y = y;
+        this.line = x;
+        this.column = y;
         this.observer = observer;
     }
 
@@ -54,12 +54,16 @@ public abstract class AbstractNode {
         return moveLeft;
     }
 
-    public int getX() {
-        return x;
+    public int getLine() {
+        return line;
     }
 
-    public int getY() {
-        return y;
+    public int getColumn() {
+        return column;
+    }
+    
+    public ObserverNode getObserver() {
+    	return this.observer;
     }
 
     public abstract void moveCar(Car car);

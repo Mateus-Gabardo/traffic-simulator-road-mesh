@@ -11,7 +11,7 @@ public abstract class PieceModel {
 
 	public PieceModel(int tipo) {
 		this.tipo = tipo;
-		this.possuiCar = true;
+		this.possuiCar = false;
 	}
 
 	public int getTipo() {

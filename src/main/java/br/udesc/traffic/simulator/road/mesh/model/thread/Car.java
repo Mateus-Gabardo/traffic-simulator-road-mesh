@@ -1,100 +1,93 @@
 package br.udesc.traffic.simulator.road.mesh.model.thread;
 
-import br.udesc.traffic.simulator.road.mesh.model.tables.AbstractPieceTable;
-
 import java.util.Random;
 
-public class Car extends Thread{
+import br.udesc.traffic.simulator.road.mesh.model.node.AbstractNode;
 
-    private int line;
-    private int column;
-    private boolean isFirst;
-    private boolean isBlocked;
-    private int timeSleep;
-    private AbstractPieceTable pieceTable;
-    private AbstractPieceTable out;
+public class Car extends Thread {
+	private boolean isFirst;
+	private boolean isBlocked;
+	private int timeSleep;
+	private AbstractNode nodeAtual;
 
-    public Car(int line, int column, AbstractPieceTable pieceTable) {
-        this.line = line;
-        this.column = column;
-        this.isFirst = true;
-        this.isBlocked = false;
-        this.timeSleep = new Random().nextInt(2001 - 500) + 500;
-        this.pieceTable = pieceTable;
-        this.out = null;
-    }
+	public Car(AbstractNode nodeAtual) {
+		this.isFirst = true;
+		this.isBlocked = false;
+		this.timeSleep = new Random().nextInt(2001 - 500) + 500;
+		this.nodeAtual = nodeAtual;
+	}
 
-    @Override
-    public void run() {
-        try{
-            while (!isBlocked && !isInterrupted()){
-                if (isFirst) {
-                    if (pieceTable.tryBlock()) {
-                        pieceTable.getObserver().notifyStartCar(line, column);
-                        setFirstFalse();
-                        sleep();
-                    }
-                } else {
-                    pieceTable.moveCar(this);
-                }
-            }
-            pieceTable.getObserver().notifyEndCar(line, column, this);
-            Thread.currentThread().interrupt();
-        } catch (InterruptedException e) {
-            pieceTable.getObserver().notifyEndCar(line, column, this);
-            Thread.currentThread().interrupt();
-        }
-    }
+	@Override
+	public void run() {
+		try {
+			while (!isBlocked && !isInterrupted()) {
+				if (isFirst) {
+					if (nodeAtual.tryNext()) {
+						nodeAtual.getObserver().notifyStartCar(nodeAtual.getLine(), nodeAtual.getColumn());
+						setFirstFalse();
+						sleep();
+					}
+				} else {
+					nodeAtual.moveCar(this);
+				}
+			}
+			nodeAtual.getObserver().notifyEndCar(nodeAtual.getLine(), nodeAtual.getColumn(), this);
+			Thread.currentThread().interrupt();
+		} catch (InterruptedException e) {
+			nodeAtual.getObserver().notifyEndCar(nodeAtual.getLine(), nodeAtual.getColumn(), this);
+			Thread.currentThread().interrupt();
+		}
+	}
 
-    public int getLine() {
-        return line;
-    }
+	public void setBlockedTrue() {
+		isBlocked = true;
+	}
 
-    public void setLine(int line) {
-        this.line = line;
-    }
+	public void setFirstFalse() {
+		isFirst = false;
+	}
 
-    public int getColumn() {
-        return column;
-    }
+	public void sleep() throws InterruptedException {
+		sleep(timeSleep);
+	}
 
-    public void setColumn(int column) {
-        this.column = column;
-    }
+	public boolean getFirst() {
+		return isFirst;
+	}
 
-    public void setBlockedTrue() {
-        isBlocked = true;
-    }
+	public boolean getBlocked() {
+		return isBlocked;
+	}
 
-    public void setFirstFalse() {
-        isFirst = false;
-    }
+	public boolean isFirst() {
+		return isFirst;
+	}
 
-    public void sleep() throws InterruptedException{
-        sleep(timeSleep);
-    }
+	public void setFirst(boolean isFirst) {
+		this.isFirst = isFirst;
+	}
 
-    public boolean getFirst() {
-        return isFirst;
-    }
+	public boolean isBlocked() {
+		return isBlocked;
+	}
 
-    public boolean getBlocked() {
-        return isBlocked;
-    }
+	public void setBlocked(boolean isBlocked) {
+		this.isBlocked = isBlocked;
+	}
 
-    public AbstractPieceTable getPieceTable() {
-        return pieceTable;
-    }
+	public int getTimeSleep() {
+		return timeSleep;
+	}
 
-    public void setPieceTable(AbstractPieceTable pieceTable) {
-        this.pieceTable = pieceTable;
-    }
+	public void setTimeSleep(int timeSleep) {
+		this.timeSleep = timeSleep;
+	}
 
-    public AbstractPieceTable getOut() {
-        return out;
-    }
+	public AbstractNode getNodeAtual() {
+		return nodeAtual;
+	}
 
-    public void setOut(AbstractPieceTable out) {
-        this.out = out;
-    }
+	public void setNodeAtual(AbstractNode nodeAtual) {
+		this.nodeAtual = nodeAtual;
+	}
 }

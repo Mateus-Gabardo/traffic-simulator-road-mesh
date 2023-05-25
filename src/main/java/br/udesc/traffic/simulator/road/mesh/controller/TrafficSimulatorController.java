@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.udesc.traffic.simulator.road.mesh.model.GlobalContants;
+import br.udesc.traffic.simulator.road.mesh.model.observer.ObserverNode;
 import br.udesc.traffic.simulator.road.mesh.model.road.PieceModel;
 import br.udesc.traffic.simulator.road.mesh.model.road.RoadCruzamentoDown;
 import br.udesc.traffic.simulator.road.mesh.model.road.RoadCruzamentoDownLeft;
@@ -22,6 +23,7 @@ import br.udesc.traffic.simulator.road.mesh.singleton.MeshRepository;
 
 public class TrafficSimulatorController implements AbstractTrafficSimulatorTableController, AbstractController {
 	List<ObserverView> observers;
+	ObserverNode observerNode;
 	private int[][] roadMesh;
 
 	public TrafficSimulatorController() {
@@ -102,7 +104,6 @@ public class TrafficSimulatorController implements AbstractTrafficSimulatorTable
 			// chama algum metodo que deve ser implementado na view
 			// atualizar a tela por exemplo
 		}
-
 	}
 
 	/**
