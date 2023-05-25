@@ -82,38 +82,79 @@ public class MeshRepository {
         for (int row = 0; row < roadMesh.length; row++) {
             for (int column = 0; column < roadMesh[0].length; column++) {
                 int typeRoad = roadMesh[row][column];
+                boolean isOK = true;
                 switch (typeRoad) {
                     case GlobalContants.UP:
                     case GlobalContants.CRUZAMENTO_UP:
-                        this.nodeMesh[row][column].setMoveUp(this.nodeMesh[row - 1][column]);
+                        if (row - 1 < 0) {
+                            isOK = false;
+                        }
+                        if (isOK) {
+                            this.nodeMesh[row][column].setMoveUp(this.nodeMesh[row - 1][column]);
+                        }
                         break;
                     case GlobalContants.RIGHT:
                     case GlobalContants.CRUZAMENTO_RIGHT:
-                        this.nodeMesh[row][column].setMoveRight(this.nodeMesh[row][column + 1]);
+                        if (column + 1 > roadMesh[0].length) {
+                            isOK = false;
+                        }
+                        if (isOK) {
+                            this.nodeMesh[row][column].setMoveRight(this.nodeMesh[row][column + 1]);
+                        }
                         break;
                     case GlobalContants.DOWN:
                     case GlobalContants.CRUZAMENTO_DOWN:
-                        this.nodeMesh[row][column].setMoveDown(this.nodeMesh[row + 1][column]);
+                        if (row + 1 > roadMesh.length) {
+                            isOK = false;
+                        }
+                        if (isOK) {
+                            this.nodeMesh[row][column].setMoveDown(this.nodeMesh[row + 1][column]);
+                        }
                         break;
                     case GlobalContants.LEFT:
                     case GlobalContants.CRUZAMENTO_LEFT:
-                        this.nodeMesh[row][column].setMoveLeft(this.nodeMesh[row][column - 1]);
+                        if (column - 1 > 0) {
+                            isOK = false;
+                        }
+                        if (isOK) {
+                            this.nodeMesh[row][column].setMoveLeft(this.nodeMesh[row][column - 1]);
+                        }
                         break;
                     case GlobalContants.CRUZAMENTO_DOWN_LEFT:
-                        this.nodeMesh[row][column].setMoveDown(this.nodeMesh[row + 1][column]);
-                        this.nodeMesh[row][column].setMoveLeft(this.nodeMesh[row][column - 1]);
+                        if (row + 1 > roadMesh.length || column - 1 > 0) {
+                            isOK = false;
+                        }
+                        if (isOK) {
+                            this.nodeMesh[row][column].setMoveDown(this.nodeMesh[row + 1][column]);
+                            this.nodeMesh[row][column].setMoveLeft(this.nodeMesh[row][column - 1]);
+                        }
                         break;
                     case GlobalContants.CRUZAMENTO_RIGHT_DOWN:
-                        this.nodeMesh[row][column].setMoveRight(this.nodeMesh[row][column + 1]);
-                        this.nodeMesh[row][column].setMoveDown(this.nodeMesh[row + 1][column]);
+                        if (column + 1 > roadMesh[0].length || row + 1 > roadMesh.length) {
+                            isOK = false;
+                        }
+                        if (isOK) {
+                            this.nodeMesh[row][column].setMoveRight(this.nodeMesh[row][column + 1]);
+                            this.nodeMesh[row][column].setMoveDown(this.nodeMesh[row + 1][column]);
+                        }
                         break;
                     case GlobalContants.CRUZAMENTO_UP_LEFT:
-                        this.nodeMesh[row][column].setMoveUp(this.nodeMesh[row - 1][column]);
-                        this.nodeMesh[row][column].setMoveLeft(this.nodeMesh[row][column - 1]);
+                        if (row - 1 < 0 || column - 1 > 0) {
+                            isOK = false;
+                        }
+                        if (isOK) {
+                            this.nodeMesh[row][column].setMoveUp(this.nodeMesh[row - 1][column]);
+                            this.nodeMesh[row][column].setMoveLeft(this.nodeMesh[row][column - 1]);
+                        }
                         break;
                     case GlobalContants.CRUZAMENTO_UP_RIGHT:
-                        this.nodeMesh[row][column].setMoveUp(this.nodeMesh[row - 1][column]);
-                        this.nodeMesh[row][column].setMoveRight(this.nodeMesh[row][column + 1]);
+                        if (row - 1 < 0 || column + 1 > roadMesh[0].length) {
+                            isOK = false;
+                        }
+                        if (isOK) {
+                            this.nodeMesh[row][column].setMoveUp(this.nodeMesh[row - 1][column]);
+                            this.nodeMesh[row][column].setMoveRight(this.nodeMesh[row][column + 1]);
+                        }
                         break;
                 }
             }
