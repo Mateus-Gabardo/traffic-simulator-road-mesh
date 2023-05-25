@@ -15,7 +15,7 @@ public class RoadCruzamentoDown extends PieceModel{
 
 	@Override
 	public String getPathImageCar() {
-		return ImageUtils.createImagePath("/car/car-down");
+		return ImageUtils.createImagePath("/car/carDown");
 	}
 
 }

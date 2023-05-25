@@ -1,9 +1,7 @@
 package br.udesc.traffic.simulator.road.mesh.component;
 
-import java.awt.Color;
 import java.awt.Component;
 
-import javax.swing.BorderFactory;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;

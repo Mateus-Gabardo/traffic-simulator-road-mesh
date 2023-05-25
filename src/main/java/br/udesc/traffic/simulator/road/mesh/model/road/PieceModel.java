@@ -3,7 +3,6 @@ package br.udesc.traffic.simulator.road.mesh.model.road;
 import javax.swing.ImageIcon;
 
 import br.udesc.traffic.simulator.road.mesh.controller.TrafficSimulatorController;
-import br.udesc.traffic.simulator.road.mesh.util.ImageUtils;
 import br.udesc.traffic.simulator.road.mesh.util.ResizedImageIconFactory;
 
 public abstract class PieceModel {
@@ -57,8 +56,11 @@ public abstract class PieceModel {
 		return icon;
 	}
 	
-	public ImageIcon getCar(){
-		return ResizedImageIconFactory.create(ImageUtils.createImagePath(getPathImageCar()), 40, 40);
+	public ImageIcon getCar(int size){
+		int sizeIcon = (int) (this.iconSize(size));
+		String path = this.getPathImageCar();
+		ImageIcon icon = ResizedImageIconFactory.create((String) path, sizeIcon, sizeIcon);
+		return icon;
 	}
 
 	public abstract String getPathImageIcon();
