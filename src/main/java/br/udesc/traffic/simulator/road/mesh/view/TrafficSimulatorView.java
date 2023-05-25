@@ -169,6 +169,7 @@ public class TrafficSimulatorView extends JFrame implements ObserverNode {
 		PieceModel pieceAtual = (PieceModel) model.getValueAt(line, column);		
 		pieceAtual.setPossuiCar(true);		
 		model.setValueAt(pieceAtual, line, column);
+		controller.pieces[line][column] = pieceAtual;
 		board.repaint();
 		aumentarlThread();
 	}
@@ -182,6 +183,8 @@ public class TrafficSimulatorView extends JFrame implements ObserverNode {
 		pieceNext.setPossuiCar(true);
 		model.setValueAt(pieceAtual, pastLine, pastColumn);
 		model.setValueAt(pieceNext, newLine, newColumn);
+		controller.pieces[pastLine][pastColumn] = pieceAtual;
+		controller.pieces[newLine][newColumn] = pieceNext;
 		board.repaint();
 	}
 
@@ -191,6 +194,7 @@ public class TrafficSimulatorView extends JFrame implements ObserverNode {
 		PieceModel pieceAtual = (PieceModel) model.getValueAt(line, column);		
 		pieceAtual.setPossuiCar(false);		
 		model.setValueAt(pieceAtual, line, column);
+		controller.pieces[line][column] = pieceAtual;
 		board.repaint();
 		diminuirThread();
 	}

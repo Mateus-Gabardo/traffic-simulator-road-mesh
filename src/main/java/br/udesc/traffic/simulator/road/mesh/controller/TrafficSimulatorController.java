@@ -9,17 +9,6 @@ import br.udesc.traffic.simulator.road.mesh.model.node.AbstractNode;
 import br.udesc.traffic.simulator.road.mesh.model.observer.ObserverNode;
 import br.udesc.traffic.simulator.road.mesh.model.road.PieceModel;
 import br.udesc.traffic.simulator.road.mesh.model.road.RoadCruzamentoDown;
-import br.udesc.traffic.simulator.road.mesh.model.road.RoadCruzamentoDownLeft;
-import br.udesc.traffic.simulator.road.mesh.model.road.RoadCruzamentoLeft;
-import br.udesc.traffic.simulator.road.mesh.model.road.RoadCruzamentoRight;
-import br.udesc.traffic.simulator.road.mesh.model.road.RoadCruzamentoRightDown;
-import br.udesc.traffic.simulator.road.mesh.model.road.RoadCruzamentoUp;
-import br.udesc.traffic.simulator.road.mesh.model.road.RoadCruzamentoUpLeft;
-import br.udesc.traffic.simulator.road.mesh.model.road.RoadCruzamentoUpRight;
-import br.udesc.traffic.simulator.road.mesh.model.road.RoadDown;
-import br.udesc.traffic.simulator.road.mesh.model.road.RoadLeft;
-import br.udesc.traffic.simulator.road.mesh.model.road.RoadRight;
-import br.udesc.traffic.simulator.road.mesh.model.road.RoadUp;
 import br.udesc.traffic.simulator.road.mesh.model.thread.Car;
 import br.udesc.traffic.simulator.road.mesh.singleton.MeshRepository;
 
@@ -28,6 +17,7 @@ public class TrafficSimulatorController implements AbstractTrafficSimulatorTable
 	private int[][] roadMesh;
 	private boolean interruptClick;
 	private AbstractNode[][] nodeMesh;
+	public PieceModel[][] pieces;
 	private List<Car> cars;
 	private int type;
 
@@ -36,6 +26,7 @@ public class TrafficSimulatorController implements AbstractTrafficSimulatorTable
 		this.type = type;
 		interruptClick = false;
 		this.roadMesh = MeshRepository.getInstance().getRoadMesh();
+		pieces = MeshRepository.getInstance().getPiieces();
 	}
 
 	@Override
@@ -50,48 +41,10 @@ public class TrafficSimulatorController implements AbstractTrafficSimulatorTable
 
 	@Override
 	public PieceModel getValueAt(int rowIndex, int columnIndex) {
-		int tipo = roadMesh[rowIndex][columnIndex];
-		switch (tipo) {
-		case GlobalContants.UP: {
-			return new RoadUp(tipo);
-		}
-		case GlobalContants.RIGHT: {
-			return new RoadRight(tipo);
-		}
-		case GlobalContants.DOWN: {
-			return new RoadDown(tipo);
-		}
-		case GlobalContants.LEFT: {
-			return new RoadLeft(tipo);
-		}
-		case GlobalContants.CRUZAMENTO_DOWN: {
-			return new RoadCruzamentoDown(tipo);
-		}
-		case GlobalContants.CRUZAMENTO_UP: {
-			return new RoadCruzamentoUp(tipo);
-		}
-		case GlobalContants.CRUZAMENTO_LEFT: {
-			return new RoadCruzamentoLeft(tipo);
-		}
-		case GlobalContants.CRUZAMENTO_RIGHT: {
-			return new RoadCruzamentoRight(tipo);
-		}
-		case GlobalContants.CRUZAMENTO_DOWN_LEFT: {
-			return new RoadCruzamentoDownLeft(tipo);
-		}
-		case GlobalContants.CRUZAMENTO_RIGHT_DOWN: {
-			return new RoadCruzamentoRightDown(tipo);
-		}
-		case GlobalContants.CRUZAMENTO_UP_LEFT: {
-			return new RoadCruzamentoUpLeft(tipo);
-		}
-		case GlobalContants.CRUZAMENTO_UP_RIGHT: {
-			return new RoadCruzamentoUpRight(tipo);
-		}
-		default:
-			return null;
-		}
+		return pieces[rowIndex][columnIndex];		
 	}
+	
+	
 	
 	public boolean hasElementAt(int linha, int coluna, int[][] state) {
 		if (state[linha][coluna] == 0) {

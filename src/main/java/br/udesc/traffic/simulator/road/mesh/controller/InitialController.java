@@ -19,6 +19,7 @@ public class InitialController {
 		try {
 			malhaViaria = ReadFileMesh.gerarRoadMesh(arquivo);
 			MeshRepository.getInstance().setRoadMesh(malhaViaria);
+			MeshRepository.getInstance().initPiece();
 			observer.ativedInitialButton();
 		} catch (Exception e) {
 			observer.notifyErrorFile();
