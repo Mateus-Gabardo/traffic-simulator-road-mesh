@@ -3,6 +3,8 @@ package br.udesc.traffic.simulator.road.mesh.model.node;
 import br.udesc.traffic.simulator.road.mesh.model.observer.ObserverNode;
 import br.udesc.traffic.simulator.road.mesh.model.thread.Car;
 
+import java.util.Random;
+
 public class NodeCrossMonitor extends AbstractNode{
 
 	public NodeCrossMonitor(int x, int y, ObserverNode observer) {
@@ -18,6 +20,26 @@ public class NodeCrossMonitor extends AbstractNode{
 
 	@Override
 	public AbstractNode getNextNode(Car car) {
+		Random random = new Random();
+		boolean find = false;
+		while (!find) {
+			int randomValue = random.nextInt(4) + 1;
+			switch (randomValue) {
+				case 1:{
+
+					break;
+				}
+				case 2:{
+					break;
+				}
+				case 3:{
+					break;
+				}
+				case 4:{
+					break;
+				}
+			}
+		}
 
 		return null;
 	}

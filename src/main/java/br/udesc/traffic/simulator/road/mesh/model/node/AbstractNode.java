@@ -66,6 +66,38 @@ public abstract class AbstractNode {
     	return this.observer;
     }
 
+    public boolean isMoveUp(){
+        if (this.moveUp != null){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean isMoveDown(){
+        if (this.moveDown != null){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean isMoveRight(){
+        if (this.moveRight != null){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean isMoveLeft(){
+        if (this.moveLeft != null){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public abstract void moveCar(Car car);
     public abstract AbstractNode getNextNode(Car car);
     public abstract boolean tryNext() throws InterruptedException;
