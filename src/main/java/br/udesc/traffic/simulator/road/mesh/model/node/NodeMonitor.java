@@ -16,14 +16,45 @@ public class NodeMonitor extends AbstractNode {
     }
 
     @Override
-    public synchronized void moveCar(Car car) {
-    	
+    public synchronized void moveCar(Car car) throws InterruptedException {
+    	try {
+    		AbstractNode nextNode = getNextNode(car);
+    		if(nextNode != null) {
+    			car.setNodeAtual(nextNode);
+    			getObserver().notifyMoveCar(getLine(), getColumn(), nextNode.getLine(), nextNode.getColumn());
+    			this.release();
+    			car.sleep();
+    		} else {
+    			car.setBlocked(true);
+    			getObserver().notifyEndCar(getLine(), getColumn(), car);
+    			this.release();
+    		}
+    	}catch (Exception e) {
+    		this.release();
+    		throw new InterruptedException();
+		}
     }
 
-    @Override
-    public AbstractNode getNextNode(Car car) {
-    	return null;
-    }
+	@Override
+	public AbstractNode getNextNode(Car car) {
+		AbstractNode currentNode = car.getNodeAtual();
+		AbstractNode nextNode = null;
+
+		AbstractNode[] directions = {
+			currentNode.getMoveLeft(), 
+			currentNode.getMoveDown(), 
+			currentNode.getMoveRight(), 
+			currentNode.getMoveUp() 
+		};
+
+		for (AbstractNode direction : directions) {
+			if (direction != null) {
+				nextNode = direction;
+				break;
+			}
+		}
+		return nextNode;
+	}
 
     @Override
     public boolean tryNext() throws InterruptedException {

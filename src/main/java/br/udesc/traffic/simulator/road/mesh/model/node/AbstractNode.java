@@ -110,7 +110,7 @@ public abstract class AbstractNode {
         }
     }
 
-    public abstract void moveCar(Car car);
+    public abstract void moveCar(Car car) throws InterruptedException;
     public abstract AbstractNode getNextNode(Car car);
     public abstract boolean tryNext() throws InterruptedException;
     public abstract void block() throws InterruptedException;
