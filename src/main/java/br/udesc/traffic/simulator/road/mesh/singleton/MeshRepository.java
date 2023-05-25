@@ -18,8 +18,9 @@ public class MeshRepository {
     }
 	
     public synchronized static MeshRepository getInstance(){
-        if (instance == null)
-			instance = new MeshRepository();
+        if (instance == null) {
+        	instance = new MeshRepository();        	
+        }
         return instance;
     }
     
@@ -48,7 +49,8 @@ public class MeshRepository {
     }
 
     public AbstractNode[][] createNodeMesh(ObserverNode observer, int type) {
-
+    	int linha = roadMesh.length;
+    	int coluna = roadMesh[0].length;
     	AbstractNode[][] nodeMesh = new AbstractNode[roadMesh.length][roadMesh[0].length];
 
         for (int i = 0; i < roadMesh.length; i++) {
@@ -74,6 +76,8 @@ public class MeshRepository {
                 }
             }
         }
+        
+        this.nodeMesh = nodeMesh;
 
         for (int row = 0; row < roadMesh.length; row++) {
             for (int column = 0; column < roadMesh[0].length; column++) {
@@ -81,48 +85,87 @@ public class MeshRepository {
                 switch (typeRoad) {
                     case GlobalContants.UP:
                     case GlobalContants.CRUZAMENTO_UP: {
-                        nodeMesh[row][column].setMoveUp(nodeMesh[row-1][column]);
-                        break;
+                    	setMoveUp(row, column, row-1, column);
+                    	break;
                     }
                     case GlobalContants.RIGHT:
                     case GlobalContants.CRUZAMENTO_RIGHT: {
-                        nodeMesh[row][column].setMoveRight(nodeMesh[row][column+1]);
+                    	setMoveRight(row, column, row, column+1);
                         break;
                     }
                     case GlobalContants.DOWN:
                     case GlobalContants.CRUZAMENTO_DOWN: {
-                        nodeMesh[row][column].setMoveDown(nodeMesh[row+1][column]);
+                    	setMoveDown(row, column, row+1, column);
                         break;
                     }
                     case GlobalContants.LEFT:
                     case GlobalContants.CRUZAMENTO_LEFT: {
-                        nodeMesh[row][column].setMoveLeft(nodeMesh[row][column-1]);
+                    	setMoveLeft(row, column, row, column-1);
                         break;
                     }
                     case GlobalContants.CRUZAMENTO_DOWN_LEFT: {
-                        nodeMesh[row][column].setMoveDown(nodeMesh[row+1][column]);
-                        nodeMesh[row][column].setMoveLeft(nodeMesh[row][column-1]);
+                    	setMoveDown(row, column, row+1, column);
+                    	setMoveLeft(row, column, row, column-1);
                         break;
                     }
                     case GlobalContants.CRUZAMENTO_RIGHT_DOWN: {
-                        nodeMesh[row][column].setMoveRight(nodeMesh[row][column+1]);
-                        nodeMesh[row][column].setMoveDown(nodeMesh[row+1][column]);
+                    	setMoveRight(row, column, row, column+1);
+                    	setMoveDown(row, column, row+1, column);
                         break;
                     }
                     case GlobalContants.CRUZAMENTO_UP_LEFT: {
-                        nodeMesh[row][column].setMoveUp(nodeMesh[row-1][column]);
-                        nodeMesh[row][column].setMoveLeft(nodeMesh[row][column-1]);
+                    	setMoveUp(row, column, row-1, column);
+                    	setMoveLeft(row, column, row, column-1);
                         break;
                     }
                     case GlobalContants.CRUZAMENTO_UP_RIGHT: {
-                        nodeMesh[row][column].setMoveUp(nodeMesh[row-1][column]);
-                        nodeMesh[row][column].setMoveRight(nodeMesh[row][column+1]);
+                    	setMoveUp(row, column, row-1, column);
+                    	setMoveRight(row, column, row, column+1);
                         break;
                     }
                 }
             }
         }
-        this.nodeMesh = nodeMesh;
         return nodeMesh;
+    }
+    
+    private boolean permiteLeft(int column) {
+    	return column > 0;
+    }
+    
+    private boolean permiteRigth(int column) {
+    	return column < roadMesh.length;
+    }
+    
+    private boolean permiteUp(int row) {
+    	return row > 0;
+    }
+    
+    private boolean permiteDown(int row) {
+    	return row < roadMesh.length-1;
+    }
+    
+    private void setMoveRight(int row, int column, int nextRow, int nextColumn) {
+    	if(permiteRigth(column)) {
+    		nodeMesh[row][column].setMoveDown(nodeMesh[nextRow][nextColumn]);
+    	}
+    }
+    
+    private void setMoveLeft(int row, int column, int nextRow, int nextColumn) {
+    	if(permiteLeft(column)) {
+    		nodeMesh[row][column].setMoveDown(nodeMesh[nextRow][nextColumn]);
+    	}
+    }
+    
+    private void setMoveUp(int row, int column, int nextRow, int nextColumn) {
+    	if(permiteUp(row)) {
+    		nodeMesh[row][column].setMoveDown(nodeMesh[nextRow][nextColumn]);
+    	}
+    }
+    
+    private void setMoveDown(int row, int column, int nextRow, int nextColumn) {
+    	if(permiteDown(row)) {
+    		nodeMesh[row][column].setMoveDown(nodeMesh[nextRow][nextColumn]);
+    	}
     }
 }
