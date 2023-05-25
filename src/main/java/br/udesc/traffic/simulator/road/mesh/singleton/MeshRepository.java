@@ -84,49 +84,41 @@ public class MeshRepository {
                 int typeRoad = roadMesh[row][column];
                 switch (typeRoad) {
                     case GlobalContants.UP:
-                    case GlobalContants.CRUZAMENTO_UP: {
-                    	setMoveUp(row, column, row-1, column);
-                    	break;
-                    }
+                    case GlobalContants.CRUZAMENTO_UP:
+                        this.nodeMesh[row][column].setMoveUp(this.nodeMesh[row - 1][column]);
+                        break;
                     case GlobalContants.RIGHT:
-                    case GlobalContants.CRUZAMENTO_RIGHT: {
-                    	setMoveRight(row, column, row, column+1);
+                    case GlobalContants.CRUZAMENTO_RIGHT:
+                        this.nodeMesh[row][column].setMoveRight(this.nodeMesh[row][column + 1]);
                         break;
-                    }
                     case GlobalContants.DOWN:
-                    case GlobalContants.CRUZAMENTO_DOWN: {
-                    	setMoveDown(row, column, row+1, column);
+                    case GlobalContants.CRUZAMENTO_DOWN:
+                        this.nodeMesh[row][column].setMoveDown(this.nodeMesh[row + 1][column]);
                         break;
-                    }
                     case GlobalContants.LEFT:
-                    case GlobalContants.CRUZAMENTO_LEFT: {
-                    	setMoveLeft(row, column, row, column-1);
+                    case GlobalContants.CRUZAMENTO_LEFT:
+                        this.nodeMesh[row][column].setMoveLeft(this.nodeMesh[row][column - 1]);
                         break;
-                    }
-                    case GlobalContants.CRUZAMENTO_DOWN_LEFT: {
-                    	setMoveDown(row, column, row+1, column);
-                    	setMoveLeft(row, column, row, column-1);
+                    case GlobalContants.CRUZAMENTO_DOWN_LEFT:
+                        this.nodeMesh[row][column].setMoveDown(this.nodeMesh[row + 1][column]);
+                        this.nodeMesh[row][column].setMoveLeft(this.nodeMesh[row][column - 1]);
                         break;
-                    }
-                    case GlobalContants.CRUZAMENTO_RIGHT_DOWN: {
-                    	setMoveRight(row, column, row, column+1);
-                    	setMoveDown(row, column, row+1, column);
+                    case GlobalContants.CRUZAMENTO_RIGHT_DOWN:
+                        this.nodeMesh[row][column].setMoveRight(this.nodeMesh[row][column + 1]);
+                        this.nodeMesh[row][column].setMoveDown(this.nodeMesh[row + 1][column]);
                         break;
-                    }
-                    case GlobalContants.CRUZAMENTO_UP_LEFT: {
-                    	setMoveUp(row, column, row-1, column);
-                    	setMoveLeft(row, column, row, column-1);
+                    case GlobalContants.CRUZAMENTO_UP_LEFT:
+                        this.nodeMesh[row][column].setMoveUp(this.nodeMesh[row - 1][column]);
+                        this.nodeMesh[row][column].setMoveLeft(this.nodeMesh[row][column - 1]);
                         break;
-                    }
-                    case GlobalContants.CRUZAMENTO_UP_RIGHT: {
-                    	setMoveUp(row, column, row-1, column);
-                    	setMoveRight(row, column, row, column+1);
+                    case GlobalContants.CRUZAMENTO_UP_RIGHT:
+                        this.nodeMesh[row][column].setMoveUp(this.nodeMesh[row - 1][column]);
+                        this.nodeMesh[row][column].setMoveRight(this.nodeMesh[row][column + 1]);
                         break;
-                    }
                 }
             }
         }
-        return nodeMesh;
+        return this.nodeMesh;
     }
     
     private boolean permiteLeft(int column) {
