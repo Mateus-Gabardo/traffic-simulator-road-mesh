@@ -159,19 +159,19 @@ public class MeshRepository {
     
     private void setMoveRight(int row, int column, int nextRow, int nextColumn) {
     	if(permiteRigth(column)) {
-    		nodeMesh[row][column].setMoveDown(nodeMesh[nextRow][nextColumn]);
+    		nodeMesh[row][column].setMoveRight(nodeMesh[nextRow][nextColumn]);
     	}
     }
     
     private void setMoveLeft(int row, int column, int nextRow, int nextColumn) {
     	if(permiteLeft(column)) {
-    		nodeMesh[row][column].setMoveDown(nodeMesh[nextRow][nextColumn]);
+    		nodeMesh[row][column].setMoveLeft(nodeMesh[nextRow][nextColumn]);
     	}
     }
     
     private void setMoveUp(int row, int column, int nextRow, int nextColumn) {
     	if(permiteUp(row)) {
-    		nodeMesh[row][column].setMoveDown(nodeMesh[nextRow][nextColumn]);
+    		nodeMesh[row][column].setMoveUp(nodeMesh[nextRow][nextColumn]);
     	}
     }
     
