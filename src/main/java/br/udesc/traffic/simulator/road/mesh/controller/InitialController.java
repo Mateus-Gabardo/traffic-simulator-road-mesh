@@ -26,8 +26,8 @@ public class InitialController {
 		}
 	}
 
-	public void navigateNextView(int type) {
+	public void navigateNextView() {
 		MeshRepository.getInstance().setRoadMesh(malhaViaria);
-		observer.navigateNextView(type);
+		observer.navigateNextView();
 	}
 }

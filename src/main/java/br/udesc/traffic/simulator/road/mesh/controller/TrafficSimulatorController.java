@@ -13,17 +13,15 @@ import br.udesc.traffic.simulator.road.mesh.model.thread.Car;
 import br.udesc.traffic.simulator.road.mesh.singleton.MeshRepository;
 
 public class TrafficSimulatorController implements AbstractTrafficSimulatorTableController, AbstractController {
-	ObserverNode observerNode;
+	private ObserverNode observerNode;
 	private int[][] roadMesh;
 	private boolean interruptClick;
 	private AbstractNode[][] nodeMesh;
 	public PieceModel[][] pieces;
 	private List<Car> cars;
-	private int type;
 
-	public TrafficSimulatorController(int type) {
+	public TrafficSimulatorController() {
 		super();
-		this.type = type;
 		interruptClick = false;
 		this.roadMesh = MeshRepository.getInstance().getRoadMesh();
 		pieces = MeshRepository.getInstance().getPiieces();
@@ -42,9 +40,7 @@ public class TrafficSimulatorController implements AbstractTrafficSimulatorTable
 	@Override
 	public PieceModel getValueAt(int rowIndex, int columnIndex) {
 		return pieces[rowIndex][columnIndex];		
-	}
-	
-	
+	}	
 	
 	public boolean hasElementAt(int linha, int coluna, int[][] state) {
 		if (state[linha][coluna] == 0) {
@@ -56,7 +52,7 @@ public class TrafficSimulatorController implements AbstractTrafficSimulatorTable
 	
     public void onIniciar(String s) {
         interruptClick = false;
-        nodeMesh = MeshRepository.getInstance().createNodeMesh(observerNode, type);
+        nodeMesh = MeshRepository.getInstance().createNodeMesh(observerNode);
         mapeaEntrada();
         cars = new ArrayList<>();
         if(s.matches("^\\d+$")){

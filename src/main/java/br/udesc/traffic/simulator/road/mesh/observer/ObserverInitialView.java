@@ -7,5 +7,5 @@ public interface ObserverInitialView {
 
 	void notifyErrorFile();
 
-	void navigateNextView(int type);
+	void navigateNextView();
 }

@@ -14,7 +14,10 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import br.udesc.traffic.simulator.road.mesh.controller.InitialController;
+import br.udesc.traffic.simulator.road.mesh.model.abstractFactory.ConcreteFactoryMonitor;
+import br.udesc.traffic.simulator.road.mesh.model.abstractFactory.ConcreteFactorySemaphore;
 import br.udesc.traffic.simulator.road.mesh.observer.ObserverInitialView;
+import br.udesc.traffic.simulator.road.mesh.singleton.MeshRepository;
 
 public class InitialView extends JFrame implements ObserverInitialView {
 	private static final long serialVersionUID = 1L;
@@ -109,11 +112,13 @@ public class InitialView extends JFrame implements ObserverInitialView {
         });
         
 		btnMutext.addActionListener(click -> {
-        	this.controller.navigateNextView(1);
+			MeshRepository.getInstance().setFactory(new ConcreteFactorySemaphore());
+        	this.controller.navigateNextView();
         });
 		
 		btnMonitor.addActionListener(click -> {
-        	this.controller.navigateNextView(2);
+			MeshRepository.getInstance().setFactory(new ConcreteFactoryMonitor());
+        	this.controller.navigateNextView();
         });
 	}
 
@@ -138,8 +143,8 @@ public class InitialView extends JFrame implements ObserverInitialView {
 	}
 
 	@Override
-	public void navigateNextView(int type) {
-		TrafficSimulatorView view = new TrafficSimulatorView(type);
+	public void navigateNextView() {
+		TrafficSimulatorView view = new TrafficSimulatorView();
 		view.setVisible(true);
 		this.dispose();		
 	}

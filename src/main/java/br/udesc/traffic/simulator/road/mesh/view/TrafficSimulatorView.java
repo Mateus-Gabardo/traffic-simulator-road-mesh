@@ -29,9 +29,9 @@ public class TrafficSimulatorView extends JFrame implements ObserverNode {
 	private JLabel lblNumeroThreadAtual;
 	private TrafficSimulatorTableView board;
 
-	public TrafficSimulatorView(int type){
+	public TrafficSimulatorView(){
 		super();
-		controller = new TrafficSimulatorController(type);
+		controller = new TrafficSimulatorController();
 		controller.addObserver(this);
 		init();
 	}

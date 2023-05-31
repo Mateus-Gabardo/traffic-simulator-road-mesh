@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.udesc.traffic.simulator.road.mesh.model.GlobalContants;
+import br.udesc.traffic.simulator.road.mesh.model.abstractFactory.AbstractFactoryThreads;
 import br.udesc.traffic.simulator.road.mesh.model.node.*;
 import br.udesc.traffic.simulator.road.mesh.model.observer.ObserverNode;
 import br.udesc.traffic.simulator.road.mesh.model.road.PieceModel;
@@ -26,6 +27,7 @@ public class MeshRepository {
     private AbstractNode[][] nodeMesh;
     private List<AbstractNode> inicioNode;
     private PieceModel[][] pieces;
+    private AbstractFactoryThreads factory;
     
     private MeshRepository() {
     	inicioNode = new ArrayList<>();
@@ -62,30 +64,28 @@ public class MeshRepository {
     	inicioNode.add(node);
     }
 
-    public AbstractNode[][] createNodeMesh(ObserverNode observer, int type) {
+    public AbstractFactoryThreads getFactory() {
+		return factory;
+	}
+
+	public void setFactory(AbstractFactoryThreads factory) {
+		this.factory = factory;
+	}
+
+	public AbstractNode[][] createNodeMesh(ObserverNode observer) {
     	AbstractNode[][] nodeMesh = new AbstractNode[roadMesh.length][roadMesh[0].length];
+    	AbstractFactoryThreads factoryNode = this.getFactory();
 
         for (int i = 0; i < roadMesh.length; i++) {
             for (int j = 0; j < roadMesh[0].length; j++) {
             	int typeRoad = roadMesh[i][j];
-            	
+            	AbstractNode node = null;
                 if (roadMesh[i][j] >= 1 && roadMesh[i][j] <= 4) {
-                    if (type == GlobalContants.MONITOR){
-                        AbstractNode novo = new NodeMonitor(i, j, typeRoad, observer);
-                        nodeMesh[i][j] = novo;
-                    } else {
-                        AbstractNode novo = new NodeSemaphore(i, j, typeRoad, observer);
-                        nodeMesh[i][j] = novo;
-                    }
+                	node = factoryNode.createNode(i, typeRoad, typeRoad, observer);
                 } else if (roadMesh[i][j] >= 5 && roadMesh[i][j] <= 12) {
-                    if (type == GlobalContants.MONITOR){
-                        AbstractNode novo = new NodeCrossMonitor(i, j, typeRoad, observer);
-                        nodeMesh[i][j] = novo;
-                    } else {
-                        AbstractNode novo = new NodeCrossSemaphore(i, j, typeRoad, observer);
-                        nodeMesh[i][j] = novo;
-                    }
+                	node = factoryNode.createCrossNode(i, typeRoad, typeRoad, observer);
                 }
+                nodeMesh[i][j] = node;
             }
         }
         
