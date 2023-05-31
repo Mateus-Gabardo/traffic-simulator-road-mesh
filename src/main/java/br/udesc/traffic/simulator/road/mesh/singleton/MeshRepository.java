@@ -81,9 +81,9 @@ public class MeshRepository {
             	int typeRoad = roadMesh[i][j];
             	AbstractNode node = null;
                 if (roadMesh[i][j] >= 1 && roadMesh[i][j] <= 4) {
-                	node = factoryNode.createNode(i, typeRoad, typeRoad, observer);
+                	node = factoryNode.createNode(i, j, typeRoad, observer);
                 } else if (roadMesh[i][j] >= 5 && roadMesh[i][j] <= 12) {
-                	node = factoryNode.createCrossNode(i, typeRoad, typeRoad, observer);
+                	node = factoryNode.createCrossNode(i, j, typeRoad, observer);
                 }
                 nodeMesh[i][j] = node;
             }
