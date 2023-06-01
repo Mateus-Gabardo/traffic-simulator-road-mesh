@@ -3,6 +3,8 @@ package br.udesc.traffic.simulator.road.mesh.model.node;
 import br.udesc.traffic.simulator.road.mesh.model.observer.ObserverNode;
 import br.udesc.traffic.simulator.road.mesh.model.thread.Car;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
@@ -17,22 +19,70 @@ public class NodeSemaphore extends AbstractNode{
 
     @Override
     public synchronized void moveCar(Car car) throws InterruptedException {
-        try {
-            AbstractNode nextNode = getNextNode(car);
-            if(nextNode != null) {
-                car.setNodeAtual(nextNode);
-                getObserver().notifyMoveCar(getLine(), getColumn(), nextNode.getLine(), nextNode.getColumn());
-                this.release();
-                car.sleep();
-            } else {
-                car.setBlocked(true);
-                getObserver().notifyEndCar(getLine(), getColumn(), car);
-                this.release();
-            }
-        }catch (Exception e) {
-            this.release();
-            throw new InterruptedException();
-        }
+    	AbstractNode nextNode = null;
+		AbstractNode currentNode = car.getNodeAtual();
+		AbstractNode firstNode = currentNode;
+		List<AbstractNode> nodesCross = new ArrayList<>();
+
+		try{
+			nextNode = getNextNode(car);
+			if (!nextNode.getIsCross()) {
+				if (nextNode.tryNext()) {
+					car.setNodeAtual(nextNode);
+					this.getObserver().notifyMoveCar(this.getLine(), this.getColumn(), nextNode.getLine(), nextNode.getColumn());
+					this.release();
+					car.sleep();
+				}
+			} else {
+				boolean find = false;
+				boolean isOK = true;
+				nodesCross.add(nextNode);
+				if (nextNode.tryNext()) {
+					nextNode.block();
+				}else {
+					isOK = false;
+				}
+				currentNode = nextNode;
+				while (!find) {
+					nextNode = currentNode.getNextNode(car);
+					if (nextNode.getIsCross()){
+						nodesCross.add(nextNode);
+						if (nextNode.tryNext()) {
+							nextNode.block();
+						}else {
+							isOK = false;
+						}
+						currentNode = nextNode;
+					} else {
+						nodesCross.add(nextNode);
+						if (nextNode.tryNext()) {
+							nextNode.block();
+						}else {
+							isOK = false;
+						}
+						find = true;
+					}
+				}
+				
+				if (isOK) {
+					for (AbstractNode node : nodesCross) {
+						car.setNodeAtual(node);
+						firstNode.getObserver().notifyMoveCar(firstNode.getLine(), firstNode.getColumn(), node.getLine(), node.getColumn());
+						firstNode.release();
+						firstNode = node;
+						car.sleep();
+					}
+				} else {
+					for (AbstractNode node2 : nodesCross) {
+						node2.release();
+					}
+				}
+			}
+
+		} catch (InterruptedException e) {
+			this.release();
+			throw new InterruptedException();
+		}
     }
 
     @Override
@@ -58,7 +108,7 @@ public class NodeSemaphore extends AbstractNode{
 
     @Override
     public boolean tryNext() throws InterruptedException {
-        return semaphore.tryAcquire(new Random().nextInt(2001 - 500) + 500, TimeUnit.MILLISECONDS);
+        return semaphore.tryAcquire(1000, TimeUnit.MILLISECONDS);
     }
 
     @Override

@@ -20,13 +20,14 @@ public class NodeCrossSemaphore extends AbstractNode {
 	@Override
 	public synchronized void moveCar(Car car) throws InterruptedException {
 		AbstractNode nextNode = null;
-		AbstractNode actual = car.getNodeAtual();
+		AbstractNode currentNode = car.getNodeAtual();
+		AbstractNode firstNode = currentNode;
 		List<AbstractNode> nodesCross = new ArrayList<>();
 
 		try{
 			nextNode = getNextNode(car);
 			if (!nextNode.getIsCross()) {
-				if (tryNext()) {
+				if (this.tryNext()) {
 					car.setNodeAtual(nextNode);
 					this.getObserver().notifyMoveCar(this.getLine(), this.getColumn(), nextNode.getLine(), nextNode.getColumn());
 					this.release();
@@ -34,46 +35,52 @@ public class NodeCrossSemaphore extends AbstractNode {
 				}
 			} else {
 				boolean find = false;
+				boolean isOK = true;
 				nodesCross.add(nextNode);
-				actual = nextNode;
+				if (nextNode.tryNext()) {
+					nextNode.block();
+				}else {
+					isOK = false;
+				}
+				currentNode = nextNode;
 				while (!find) {
-					nextNode = actual.getNextNode(car);
+					nextNode = currentNode.getNextNode(car);
 					if (nextNode.getIsCross()){
 						nodesCross.add(nextNode);
-						actual = nextNode;
+						if (nextNode.tryNext()) {
+							nextNode.block();
+						}else {
+							isOK = false;
+						}
+						currentNode = nextNode;
 					} else {
 						nodesCross.add(nextNode);
+						if (nextNode.tryNext()) {
+							nextNode.block();
+						}else {
+							isOK = false;
+						}
 						find = true;
 					}
 				}
-				boolean isOK = true;
-				for (AbstractNode node : nodesCross) {
-					if (node.tryNext()) {
-						node.block();
-					} else {
-						isOK = false;
-						for (AbstractNode node2 : nodesCross) {
-							node2.release();
-						}
-					}
-				}
+				
 				if (isOK) {
 					for (AbstractNode node : nodesCross) {
 						car.setNodeAtual(node);
-						this.getObserver().notifyMoveCar(actual.getLine(), actual.getColumn(), nextNode.getLine(), nextNode.getColumn());
-						this.release();
-						actual = node;
+						firstNode.getObserver().notifyMoveCar(firstNode.getLine(), firstNode.getColumn(), node.getLine(), node.getColumn());
+						firstNode.release();
+						firstNode = node;
 						car.sleep();
+					}
+				} else {
+					for (AbstractNode node2 : nodesCross) {
+						node2.release();
 					}
 				}
 			}
 
 		} catch (InterruptedException e) {
 			this.release();
-			if (nextNode != null) {
-				nextNode.release();
-			}
-			car.setBlockedTrue();
 			throw new InterruptedException();
 		}
 	}
@@ -81,35 +88,36 @@ public class NodeCrossSemaphore extends AbstractNode {
 	@Override
 	public AbstractNode getNextNode(Car car) {
 		Random random = new Random();
-		AbstractNode actual = car.getNodeAtual();
+		AbstractNode currentNode = car.getNodeAtual();
+		AbstractNode next = null;
 		boolean find = false;
 		while (!find) {
 			int randomValue = random.nextInt(4) + 1;
 			switch (randomValue) {
 				case 1:{
 					if (isMoveUp()) {
-						actual = actual.getMoveUp();
+						next = currentNode.getMoveUp();
 						find = true;
 					}
 					break;
 				}
 				case 2:{
 					if (isMoveDown()) {
-						actual = actual.getMoveDown();
+						next = currentNode.getMoveDown();
 						find = true;
 					}
 					break;
 				}
 				case 3:{
 					if (isMoveRight()) {
-						actual = actual.getMoveRight();
+						next = currentNode.getMoveRight();
 						find = true;
 					}
 					break;
 				}
 				case 4:{
 					if (isMoveLeft()) {
-						actual = actual.getMoveLeft();
+						next = currentNode.getMoveLeft();
 						find = true;
 					}
 					break;
@@ -117,7 +125,7 @@ public class NodeCrossSemaphore extends AbstractNode {
 			}
 		}
 
-		return actual;
+		return next;
 	}
 
 	@Override
