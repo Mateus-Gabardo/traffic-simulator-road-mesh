@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
+import java.util.Random;
 
 public class NodeSemaphore extends AbstractNode{
 
@@ -125,13 +126,14 @@ public class NodeSemaphore extends AbstractNode{
                 currentNode.getMoveRight(),
                 currentNode.getMoveUp()
         };
-
-        for (AbstractNode direction : directions) {
-            if (direction != null) {
-                nextNode = direction;
-                break;
-            }
+        
+        Random random = new Random();
+        
+        while (nextNode == null) {
+        	 int randomIndex = random.nextInt(directions.length);
+             nextNode = directions[randomIndex];
         }
+
         return nextNode;
     }
 
