@@ -146,7 +146,7 @@ public class MeshRepository {
     }
     
     private boolean permiteRigth(int column) {
-    	return column < roadMesh.length;
+    	return column < roadMesh[0].length-1;
     }
     
     private boolean permiteUp(int row) {

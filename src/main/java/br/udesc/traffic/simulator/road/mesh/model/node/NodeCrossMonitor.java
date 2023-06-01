@@ -15,7 +15,6 @@ public class NodeCrossMonitor extends AbstractNode{
 
 	public NodeCrossMonitor(int x, int y, int type, ObserverNode observer) {
 		super(x, y, type, observer, true);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

@@ -10,6 +10,7 @@ import br.udesc.traffic.simulator.road.mesh.model.observer.ObserverNode;
 import br.udesc.traffic.simulator.road.mesh.model.road.PieceModel;
 import br.udesc.traffic.simulator.road.mesh.model.road.RoadCruzamentoDown;
 import br.udesc.traffic.simulator.road.mesh.model.thread.Car;
+import br.udesc.traffic.simulator.road.mesh.model.thread.CarGenerator;
 import br.udesc.traffic.simulator.road.mesh.singleton.MeshRepository;
 
 public class TrafficSimulatorController implements AbstractTrafficSimulatorTableController, AbstractController {
@@ -57,19 +58,14 @@ public class TrafficSimulatorController implements AbstractTrafficSimulatorTable
         cars = new ArrayList<>();
         if(s.matches("^\\d+$")){
             int numThreads = Integer.parseInt(s);
-            for(int i = 0; i < numThreads; i ++){
-                geraCarro();
-            }
+            CarGenerator generator = new CarGenerator(numThreads, cars);
+            generator.start();
         }
     }
     
     public void geraCarro(){
-        int posicao = new Random().nextInt(MeshRepository.getInstance().getNodeInit().size());
-        int linha = MeshRepository.getInstance().getNodeInit().get(posicao).getLine();
-        int coluna = MeshRepository.getInstance().getNodeInit().get(posicao).getColumn();
-        Car car = new Car(nodeMesh[linha][coluna]);
-        cars.add(car);
-        car.start();
+    	CarGenerator generator = new CarGenerator(1, cars);
+        generator.start();
     }
     
     public void onEncerrarCarros(){
