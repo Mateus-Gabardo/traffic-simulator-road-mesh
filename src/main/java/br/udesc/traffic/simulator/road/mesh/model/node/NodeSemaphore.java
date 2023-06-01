@@ -5,7 +5,6 @@ import br.udesc.traffic.simulator.road.mesh.model.thread.Car;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
@@ -26,16 +25,16 @@ public class NodeSemaphore extends AbstractNode{
 
 		try{
 			nextNode = getNextNode(car);
-			if (!nextNode.getIsCross()) {
-				if (nextNode.tryNext()) {
-					car.setNodeAtual(nextNode);
-					this.getObserver().notifyMoveCar(this.getLine(), this.getColumn(), nextNode.getLine(), nextNode.getColumn());
-					this.release();
-					car.sleep();
-				}
+			if(nextNode == null) {
+    			car.setBlocked(true);
+    			getObserver().notifyEndCar(getLine(), getColumn(), car);
+    			this.release();
+			} else if (!nextNode.getIsCross()) {
+				moveOne(car, nextNode);
 			} else {
 				boolean find = false;
 				boolean isOK = true;
+				
 				if (nextNode.tryNext()) {
 					nodesCross.add(nextNode);
 					currentNode = nextNode;
@@ -62,13 +61,7 @@ public class NodeSemaphore extends AbstractNode{
 				}
 				
 				if (isOK) {
-					for (AbstractNode node : nodesCross) {
-						car.setNodeAtual(node);
-						firstNode.getObserver().notifyMoveCar(firstNode.getLine(), firstNode.getColumn(), node.getLine(), node.getColumn());
-						firstNode.release();
-						firstNode = node;
-						car.sleep();
-					}
+					moveCross(car, firstNode, nodesCross);
 				} else {
 					for (AbstractNode node2 : nodesCross) {
 						node2.release();
@@ -81,6 +74,25 @@ public class NodeSemaphore extends AbstractNode{
 			throw new InterruptedException();
 		}
     }
+
+	private void moveCross(Car car, AbstractNode firstNode, List<AbstractNode> nodesCross) throws InterruptedException {
+		for (AbstractNode node : nodesCross) {
+			car.setNodeAtual(node);
+			firstNode.getObserver().notifyMoveCar(firstNode.getLine(), firstNode.getColumn(), node.getLine(), node.getColumn());
+			firstNode.release();
+			firstNode = node;
+			car.sleep();
+		}
+	}
+
+	private void moveOne(Car car, AbstractNode nextNode) throws InterruptedException {
+		if (nextNode.tryNext()) {
+			car.setNodeAtual(nextNode);
+			this.getObserver().notifyMoveCar(this.getLine(), this.getColumn(), nextNode.getLine(), nextNode.getColumn());
+			this.release();
+			car.sleep();
+		}
+	}
 
     @Override
     public AbstractNode getNextNode(Car car) {
