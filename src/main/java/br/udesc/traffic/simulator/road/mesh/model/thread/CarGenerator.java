@@ -9,10 +9,12 @@ import br.udesc.traffic.simulator.road.mesh.singleton.MeshRepository;
 public class CarGenerator extends Thread{
 	private List<Car> cars;
 	private int quantidade;
+	private int maxThread;
 	
-	public CarGenerator(int quantidade, List<Car> cars) {
+	public CarGenerator(int quantidade, List<Car> cars, int maxThread) {
 		this.quantidade = quantidade;
 		this.cars = cars;
+		this.maxThread = maxThread;
 	}
 	
     private void geraCarro(){
@@ -25,9 +27,11 @@ public class CarGenerator extends Thread{
 	
 	@Override
 	public void run() {
-		for(int i= 0; i < quantidade; i++) {
-			geraCarro();
+		if(cars.size() < maxThread) {
+			for(int i= 0; i < quantidade; i++) {
+				geraCarro();
+			}
+			Thread.currentThread().interrupt();
 		}
-		Thread.currentThread().interrupt();
 	}
 }

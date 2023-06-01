@@ -20,6 +20,7 @@ public class TrafficSimulatorController implements AbstractTrafficSimulatorTable
 	private AbstractNode[][] nodeMesh;
 	public PieceModel[][] pieces;
 	private List<Car> cars;
+	private int numThreads = 0;
 
 	public TrafficSimulatorController() {
 		super();
@@ -58,14 +59,15 @@ public class TrafficSimulatorController implements AbstractTrafficSimulatorTable
         cars = new ArrayList<>();
         if(s.matches("^\\d+$")){
             int numThreads = Integer.parseInt(s);
-            CarGenerator generator = new CarGenerator(numThreads, cars);
+            this.numThreads = numThreads;
+            CarGenerator generator = new CarGenerator(numThreads, cars, numThreads);
             generator.start();
         }
     }
     
     public void geraCarro(){
-    	CarGenerator generator = new CarGenerator(1, cars);
-        generator.start();
+    	CarGenerator generator = new CarGenerator(1, cars, numThreads);
+		generator.start();
     }
     
     public void onEncerrarCarros(){
