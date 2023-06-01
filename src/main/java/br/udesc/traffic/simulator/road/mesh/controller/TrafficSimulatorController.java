@@ -52,6 +52,10 @@ public class TrafficSimulatorController implements AbstractTrafficSimulatorTable
 		}
 	}
 	
+	public List<Car> getCars(){
+		return cars;
+	}
+	
     public void onIniciar(String s) {
         interruptClick = false;
         nodeMesh = MeshRepository.getInstance().createNodeMesh(this);

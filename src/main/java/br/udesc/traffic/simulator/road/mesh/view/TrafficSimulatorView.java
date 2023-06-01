@@ -21,6 +21,7 @@ import br.udesc.traffic.simulator.road.mesh.model.GlobalContants;
 import br.udesc.traffic.simulator.road.mesh.model.observer.ObserverNode;
 import br.udesc.traffic.simulator.road.mesh.model.road.PieceModel;
 import br.udesc.traffic.simulator.road.mesh.model.thread.Car;
+import br.udesc.traffic.simulator.road.mesh.singleton.MeshRepository;
 
 public class TrafficSimulatorView extends JFrame implements ObserverNode {
 	
@@ -154,24 +155,21 @@ public class TrafficSimulatorView extends JFrame implements ObserverNode {
         });
 	}
 	
-    public synchronized void aumentarlThread() {
-        lblNumeroThreadAtual.setText(String.valueOf(Integer.parseInt(lblNumeroThreadAtual.getText())+1));
-    }
-    
-    public synchronized void diminuirThread() {
-        lblNumeroThreadAtual.setText(String.valueOf(Math.max(Integer.parseInt(lblNumeroThreadAtual.getText()) - 1, 0)));
+    public synchronized void atualizarThread() {
+        lblNumeroThreadAtual.setText(String.valueOf(controller.getCars().size()));
+        lblNumeroThreadAtual.repaint();
     }
 
 
 	@Override
 	public void notifyStartCar(int line, int column) {
 		TableModel model = board.getModel();
-		PieceModel pieceAtual = (PieceModel) model.getValueAt(line, column);		
+		PieceModel pieceAtual = (PieceModel) model.getValueAt(line, column);	
 		pieceAtual.setPossuiCar(true);		
 		model.setValueAt(pieceAtual, line, column);
 		controller.pieces[line][column] = pieceAtual;
 		board.repaint();
-		aumentarlThread();
+		atualizarThread();
 	}
 
 	@Override
@@ -196,6 +194,6 @@ public class TrafficSimulatorView extends JFrame implements ObserverNode {
 		model.setValueAt(pieceAtual, line, column);
 		controller.pieces[line][column] = pieceAtual;
 		board.repaint();
-		diminuirThread();
+		atualizarThread();
 	}
 }

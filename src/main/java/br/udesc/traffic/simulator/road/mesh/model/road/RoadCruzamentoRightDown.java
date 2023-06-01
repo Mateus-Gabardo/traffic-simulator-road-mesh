@@ -1,5 +1,6 @@
 package br.udesc.traffic.simulator.road.mesh.model.road;
 
+import br.udesc.traffic.simulator.road.mesh.model.GlobalContants;
 import br.udesc.traffic.simulator.road.mesh.util.ImageUtils;
 
 public class RoadCruzamentoRightDown extends PieceModel{
@@ -15,7 +16,11 @@ public class RoadCruzamentoRightDown extends PieceModel{
 
 	@Override
 	public String getPathImageCar() {
-		return ImageUtils.createImagePath("/car/carRight");
+		String path = "carRight";
+		if(this.getDirection() == GlobalContants.DOWN) {
+			path = "carDown";
+		}
+		return ImageUtils.createImagePath("/car/" + path);
 	}
 
 }

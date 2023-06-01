@@ -8,10 +8,12 @@ import br.udesc.traffic.simulator.road.mesh.util.ResizedImageIconFactory;
 public abstract class PieceModel {
 	private int tipo;
 	private boolean possuiCar;
+	private int direction;
 
 	public PieceModel(int tipo) {
 		this.tipo = tipo;
 		this.possuiCar = false;
+		this.direction = 0;
 	}
 
 	public int getTipo() {
@@ -28,6 +30,14 @@ public abstract class PieceModel {
 
 	protected void setTipo(int tipo) {
 		this.tipo = tipo;
+	}
+
+	public int getDirection() {
+		return direction;
+	}
+
+	public void setDirection(int direction) {
+		this.direction = direction;
 	}
 
 	/**
