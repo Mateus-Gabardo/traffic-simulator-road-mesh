@@ -36,32 +36,29 @@ public class NodeSemaphore extends AbstractNode{
 			} else {
 				boolean find = false;
 				boolean isOK = true;
-				nodesCross.add(nextNode);
 				if (nextNode.tryNext()) {
-					nextNode.block();
-				}else {
-					isOK = false;
-				}
-				currentNode = nextNode;
-				while (!find) {
-					nextNode = currentNode.getNextNode(car);
-					if (nextNode.getIsCross()){
-						nodesCross.add(nextNode);
-						if (nextNode.tryNext()) {
-							nextNode.block();
-						}else {
-							isOK = false;
+					nodesCross.add(nextNode);
+					currentNode = nextNode;
+					while (!find) {
+						nextNode = getNextNodeSimple(currentNode);
+						if (nextNode.getIsCross()){
+							if (nextNode.tryNext()) {
+								nodesCross.add(nextNode);
+								currentNode = nextNode;
+							}else {
+								isOK = false;
+							}
+						} else {
+							if (nextNode.tryNext()) {
+								nodesCross.add(nextNode);
+							}else {
+								isOK = false;
+							}
+							find = true;
 						}
-						currentNode = nextNode;
-					} else {
-						nodesCross.add(nextNode);
-						if (nextNode.tryNext()) {
-							nextNode.block();
-						}else {
-							isOK = false;
-						}
-						find = true;
 					}
+				} else {
+					isOK = false;
 				}
 				
 				if (isOK) {
@@ -88,6 +85,26 @@ public class NodeSemaphore extends AbstractNode{
     @Override
     public AbstractNode getNextNode(Car car) {
         AbstractNode currentNode = car.getNodeAtual();
+        AbstractNode nextNode = null;
+
+        AbstractNode[] directions = {
+                currentNode.getMoveLeft(),
+                currentNode.getMoveDown(),
+                currentNode.getMoveRight(),
+                currentNode.getMoveUp()
+        };
+
+        for (AbstractNode direction : directions) {
+            if (direction != null) {
+                nextNode = direction;
+                break;
+            }
+        }
+        return nextNode;
+    }
+    
+    public AbstractNode getNextNodeSimple(AbstractNode initialNode) {
+        AbstractNode currentNode = initialNode;
         AbstractNode nextNode = null;
 
         AbstractNode[] directions = {
