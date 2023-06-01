@@ -13,7 +13,7 @@ import br.udesc.traffic.simulator.road.mesh.model.thread.Car;
 import br.udesc.traffic.simulator.road.mesh.model.thread.CarGenerator;
 import br.udesc.traffic.simulator.road.mesh.singleton.MeshRepository;
 
-public class TrafficSimulatorController implements AbstractTrafficSimulatorTableController, AbstractController {
+public class TrafficSimulatorController implements AbstractTrafficSimulatorTableController, ObserverNode{
 	private ObserverNode observerNode;
 	private int[][] roadMesh;
 	private boolean interruptClick;
@@ -53,7 +53,7 @@ public class TrafficSimulatorController implements AbstractTrafficSimulatorTable
 	
     public void onIniciar(String s) {
         interruptClick = false;
-        nodeMesh = MeshRepository.getInstance().createNodeMesh(observerNode);
+        nodeMesh = MeshRepository.getInstance().createNodeMesh(this);
         mapeaEntrada();
         cars = new ArrayList<>();
         if(s.matches("^\\d+$")){
@@ -95,27 +95,27 @@ public class TrafficSimulatorController implements AbstractTrafficSimulatorTable
 		}
 	}
 
-	@Override
 	public void addObserver(ObserverNode observer) {
 		observerNode = observer;
 	}
 
+
 	@Override
-	public void notificarInicioCarro(int linha, int coluna) {
-		observerNode.notifyStartCar(linha, coluna);
+	public void notifyStartCar(int line, int column) {
+		observerNode.notifyStartCar(line, column);
 	}
 
 	@Override
-	public void notificarMovimentoCarro(int linhaAntiga, int colunaAntiga, int linhaNova, int colunaNova) {
-		observerNode.notifyMoveCar(linhaAntiga, colunaAntiga, linhaNova, colunaNova);
+	public void notifyMoveCar(int pastLine, int pastColumn, int newLine, int newColumn) {
+		observerNode.notifyMoveCar(pastLine, pastColumn, newLine, newColumn);
 	}
 
 	@Override
-	public void notificarFimCarro(int linha, int coluna, Car car) {
-		observerNode.notifyEndCar(linha, coluna, car);
-        if (!interruptClick) {
-            cars.remove(car);
-            geraCarro();
-        }
+	public void notifyEndCar(int line, int column, Car car) {
+		observerNode.notifyEndCar(line, column, car);
+		if (!interruptClick) {
+			cars.remove(car);
+			geraCarro();
+		}
 	}
 }
